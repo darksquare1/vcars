@@ -13,3 +13,7 @@ main{
     background-color: blanchedalmond;
     height: 100%;
 }
+button.btn-sm a{
+    text-decoration: none;
+    color: blue;
+}

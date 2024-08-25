@@ -1,0 +1,36 @@
+{% extends 'vcars/base.html' %}
+{% block content %}
+    <div class="album py-5">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          {% for pic in pics %}
+         
+        <div class="col">
+          <div class="card shadow-sm">
+              {% if pic.thumb %}
+                <img src="/{{ pic.thumb }}" />
+              {% else %}
+                 <img src="{{ pic.pic.path}}" />
+              {% endif %}
+            
+
+            <div class="card-body">
+              <p class="card-text">{{ pic.body|truncatewords_html:30 }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="123">View</a></button>
+                </div>
+                  {% for tag in pic.tags.all|slice:'3' %}
+                  <a href="{% url 'vcars:tagged_index' tag.slug %}"><span class="badge text-bg-secondary">{{ tag.name}}</span></a>
+                   
+                  {% endfor %}
+              </div>
+            </div>
+          </div>
+      </div>
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

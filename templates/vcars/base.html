@@ -45,43 +45,17 @@
   </div>
     </nav>
     <main>
-        
-
-  <div class="album py-5">
-    <div class="container">
-
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          {% for pic in pics %}
-         
-        <div class="col">
-          <div class="card shadow-sm">
-              {% if pic.thumb %}
-                <img src="{{ pic.thumb }}" />
-              {% else %}
-                 <img src="{{ pic.pic.path}}" />
-              {% endif %}
-            
-
-            <div class="card-body">
-              <p class="card-text">{{ pic.body|truncatewords_html:30 }}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-      </div>
-          {% endfor %}
-      </div>
-    </div>
+{% block content %}
+ 
+{% endblock %}
+    
+</main>
+<footer class="bg-body-tertiary text-center text-lg-start">
+ 
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2024 Copyright
   </div>
 
-</main>
-
-
-
+</footer>
 </body>
 </html>
