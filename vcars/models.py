@@ -1,0 +1,31 @@
+from django.db import models
+from django.urls import reverse
+from taggit.managers import TaggableManager
+from PIL import Image
+class Pic(models.Model):
+    tags = TaggableManager()
+    name = models.CharField(max_length=25)
+    body = models.TextField()
+    pic = models.ImageField(upload_to='images')
+    thumb = models.CharField(max_length=120, null=True, blank=True)
+    creation_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-creation_time']
+        indexes = [models.Index(fields=['-creation_time'])]
+
+    def get_absolute_url(self):
+        return reverse('vcars:pic_detail', args=[self.id])
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.pic.path)
+        if img.height < 320 or img.width < 320:
+            img.thumbnail((320, 320))
+            thumb =  f'media/thumbs/{self.id}.{img.format}'
+
+            img.save(thumb)
+            Pic.objects.filter(id=self.id).update(thumb=thumb)
+
+
+
