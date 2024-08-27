@@ -9,9 +9,9 @@
         <div class="col">
           <div class="card shadow-sm">
               {% if pic.thumb %}
-                <img src="/{{ pic.thumb }}" />
+                <img height="170px" src="/{{ pic.thumb }}" />
               {% else %}
-                 <img src="{{ pic.pic.path}}" />
+                 <img height="170px" src="/media/{{ pic.pic}}" />
               {% endif %}
             
 
@@ -33,4 +33,5 @@
       </div>
     </div>
   </div>
+    {% include 'pagination.html' with page=pics %}
 {% endblock %}

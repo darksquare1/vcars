@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from taggit.managers import TaggableManager
 from PIL import Image
+
+
 class Pic(models.Model):
     tags = TaggableManager()
     name = models.CharField(max_length=25)
@@ -20,12 +22,9 @@ class Pic(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         img = Image.open(self.pic.path)
-        if img.height < 320 or img.width < 320:
+        if img.height > 15250 or img.width > 15520:
             img.thumbnail((320, 320))
-            thumb =  f'media/thumbs/{self.id}.{img.format}'
+            thumb = f'media/thumbs/{self.id}.{img.format}'
 
             img.save(thumb)
             Pic.objects.filter(id=self.id).update(thumb=thumb)
-
-
-
