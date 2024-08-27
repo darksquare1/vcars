@@ -28,3 +28,13 @@ class Pic(models.Model):
 
             img.save(thumb)
             Pic.objects.filter(id=self.id).update(thumb=thumb)
+
+
+class Comment(models.Model):
+    pic = models.ForeignKey(Pic, on_delete=models.CASCADE)
+    name = models.CharField(max_length=64)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['-created']
+        indexes = [models.Index(fields=['-created'])]

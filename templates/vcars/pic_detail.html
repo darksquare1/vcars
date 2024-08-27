@@ -1,0 +1,31 @@
+{% extends 'vcars/base.html' %}
+
+{% block content %}
+    <div class="pic-detail">
+        <h1 class="pic-name">{{ pic.name }}</h1>
+        <img src="/media/{{ pic.pic }}" class="img-fluid mx-auto d-block">
+        <p class="text-center fw-medium fs-4">
+            {{ pic.body }}
+            {% for tag in pic.tags.all %}
+                <a href="{% url 'vcars:tagged_index' tag.slug %}"><span
+                        class="badge text-bg-secondary">{{ tag.name }}</span></a>
+
+            {% endfor %}
+        </p>
+
+    </div>
+    <div class="comments">
+    {% for comment in comments %}
+        <h2>{{ comment.name }}</h2>
+        <h3>{{ comment.created }}</h3>
+        <span class="comment">{{ comment.body }}</span>
+    {% endfor %}
+    </div>
+    <div class="comment-form">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <input type="submit">
+    </form>
+    </div>
+{% endblock %}

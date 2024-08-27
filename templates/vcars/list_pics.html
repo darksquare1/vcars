@@ -19,7 +19,7 @@
               <p class="card-text">{{ pic.body|truncatewords_html:30 }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="123">View</a></button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ pic.get_absolute_url }}">View</a></button>
                 </div>
                   {% for tag in pic.tags.all|slice:'3' %}
                   <a href="{% url 'vcars:tagged_index' tag.slug %}"><span class="badge text-bg-secondary">{{ tag.name}}</span></a>
