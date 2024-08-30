@@ -1,0 +1,8 @@
+{% extends 'vcars/base.html' %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data" class="form-pic">
+        {{ form.as_div }}
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary btn-lg" value="Добавить картинку">
+    </form>
+{% endblock %}

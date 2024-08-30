@@ -6,6 +6,7 @@
         <img src="/media/{{ pic.pic }}" class="img-fluid mx-auto d-block">
         <p class="text-center fw-medium fs-4">
             {{ pic.body }}
+            <br>
             {% for tag in pic.tags.all %}
                 <a href="{% url 'vcars:tagged_index' tag.slug %}"><span
                         class="badge text-bg-secondary">{{ tag.name }}</span></a>

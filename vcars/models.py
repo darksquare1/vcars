@@ -22,7 +22,7 @@ class Pic(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         img = Image.open(self.pic.path)
-        if img.height > 15250 or img.width > 15520:
+        if img.height > 320 or img.width > 320:
             img.thumbnail((320, 320))
             thumb = f'media/thumbs/{self.id}.{img.format}'
 

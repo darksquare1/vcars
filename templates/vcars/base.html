@@ -35,6 +35,9 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Играть</a>
         </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'vcars:post_pic' %}">Добавить картинку</a>
+        </li>
          
       </ul>
     </div>
@@ -45,11 +48,13 @@
   </div>
     </nav>
     <main>
+    
 {% block content %}
  
 {% endblock %}
     
 </main>
+
 <footer class="bg-body-tertiary text-center text-lg-start">
  
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">

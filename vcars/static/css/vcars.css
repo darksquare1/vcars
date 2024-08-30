@@ -28,9 +28,9 @@ div.pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    align-content: end;
     width: 100%;
-    bottom: 0;
+    bottom: 8%;
 
 }
 
@@ -66,3 +66,5 @@ div.comment-form {
 span.comment {
     font-family: Arial, serif;
 }
+
+
