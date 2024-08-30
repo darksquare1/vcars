@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'vcars.apps.VcarsConfig',
     'django_bootstrap5',
     'taggit',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
