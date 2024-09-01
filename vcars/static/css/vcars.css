@@ -66,5 +66,12 @@ div.comment-form {
 span.comment {
     font-family: Arial, serif;
 }
-
-
+nav.navbar{
+    align-items:center;
+}
+span.login{
+    margin-right: 3%
+}
+form.logout-form{
+    margin-right: 3%;
+}

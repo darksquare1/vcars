@@ -11,4 +11,5 @@ urlpatterns = [
     path('pic/<int:pic_id>/', views.pic_detail, name='pic_detail'),
     path('addpic/', views.post_pic, name='post_pic'),
 
+
 ]

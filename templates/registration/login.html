@@ -1,0 +1,9 @@
+{% extends 'vcars/base.html' %}
+{% block content %}
+    <h2>Login</h2>
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+    <p><input type="submit" class ='btn btn-primary' value="login"></p>
+    </form>
+{% endblock %}
