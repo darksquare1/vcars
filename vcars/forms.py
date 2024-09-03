@@ -5,7 +5,7 @@ from .models import Comment, Pic
 
 class CommentForm(forms.ModelForm):
     name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={"class": "form-control mb-1", }))
-    body = forms.CharField(label='Комментарий', widget=forms.TextInput(attrs={"class": "form-control mb-1", }))
+    body = forms.CharField(label='Комментарий', widget=forms.Textarea(attrs={"class": "form-control mb-1", }))
 
     class Meta:
         model = Comment

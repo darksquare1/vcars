@@ -39,8 +39,10 @@ def pic_detail(request, pic_id):
             comment.pic = pic
             comment.save()
     else:
-        form = CommentForm()
-
+        if request.user.is_authenticated:
+            form = CommentForm(initial={'name': request.user.username})
+        else:
+            form = CommentForm()
     return render(request, 'vcars/pic_detail.html', {'pic': pic, 'form': form, 'comments': comments})
 
 

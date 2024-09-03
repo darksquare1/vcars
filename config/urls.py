@@ -27,8 +27,9 @@ urlpatterns = [
     path('', include('vcars.urls', namespace='vcars')),
     path('accounts/login/',
          LoginView.as_view(template_name='registration/login.html', authentication_form=UserLoginForm), name='login'),
-    path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+
 ]
 if settings.DEBUG:
     urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
