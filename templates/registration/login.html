@@ -6,5 +6,7 @@
         {% csrf_token %}
         <p><input type="submit" class='btn btn-primary' value="login"></p>
     </form>
-    Haven't registered yet? <a class='text-decoration-none' href="{% url 'signup' %}">Register</a>
+    Еще не зарегистрированы? <a class='text-decoration-none' href="{% url 'signup' %}">Зарегистрироваться.</a>
+    <br>
+    Забыли пароль? <a href="{% url 'password_reset' %}" class="text-decoration-none">Сбросить пароль</a>
 {% endblock %}
