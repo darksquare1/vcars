@@ -34,7 +34,7 @@ def pic_detail(request, pic_id):
 
     if request.method == 'POST':
         form = CommentForm(data=request.POST)
-        if form.is_valid:
+        if form.is_valid():
             comment = form.save(commit=False)
             comment.pic = pic
             comment.save()
