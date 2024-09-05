@@ -8,12 +8,13 @@
             {% endfor %}
         </div>
     {% endif %}
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <p>Username: {{ form.username }}</p>
         <p>Email: {{ form.email }}</p>
         <p>Password: {{ form.password1 }}</p>
         <p>Confirm Password: {{ form.password2 }}</p>
+        <p>Avatar: {{ form.avatar }}</p>
         <button type="submit">Sign Up</button>
     </form>
     Уже есть аккаунт? <a href="{% url 'login' %}" class="text-decoration-none">Войти</a>

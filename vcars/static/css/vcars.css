@@ -75,3 +75,7 @@ span.login{
 form.logout-form{
     margin-right: 3%;
 }
+div.avatar img{
+
+    border: 2px solid black
+}
