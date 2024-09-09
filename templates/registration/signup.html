@@ -1,6 +1,6 @@
 {% extends 'vcars/base.html' %}
 {% block content %}
- <h2> Sign Up </h2>
+ <h2> Регистрация </h2>
     {% if form.errors %}
         <div style="display: table; margin: 0 auto; text-align: left;">
             {% for key, value in form.errors.items %}
@@ -8,14 +8,18 @@
             {% endfor %}
         </div>
     {% endif %}
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" class="sign-up-form">
         {% csrf_token %}
-        <p>Username: {{ form.username }}</p>
-        <p>Email: {{ form.email }}</p>
-        <p>Password: {{ form.password1 }}</p>
-        <p>Confirm Password: {{ form.password2 }}</p>
-        <p>Avatar: {{ form.avatar }}</p>
-        <button type="submit">Sign Up</button>
+        <p>Логин: {{ form.username }}</p>
+        <p>Имя: {{ form.first_name }}</p>
+        <p>Фамилия: {{ form.last_name }}</p>
+        <p>Почта: {{ form.email }}</p>
+        <p>Пароль: {{ form.password1 }}</p>
+        <p>Подтверждение пароля: {{ form.password2 }}</p>
+        <p>Аватар: {{ form.avatar }}</p>
+        <button type="submit" class='btn btn-primary'>Зарегистрироваться</button>
+        <br>
+      Уже есть аккаунт? <a href="{% url 'login' %}" class="text-decoration-none">Войти</a>
     </form>
-    Уже есть аккаунт? <a href="{% url 'login' %}" class="text-decoration-none">Войти</a>
+  
 {% endblock %}

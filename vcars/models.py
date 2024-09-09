@@ -1,7 +1,10 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
 from taggit.managers import TaggableManager
 from PIL import Image
+
+from services.utils import unique_slugify
 
 
 class PicManager(models.Manager):
@@ -13,9 +16,11 @@ class Pic(models.Model):
     tags = TaggableManager()
     name = models.CharField(max_length=25)
     body = models.TextField()
-    pic = models.ImageField(upload_to='images')
+    pic = models.ImageField(upload_to='images',
+                            validators=[FileExtensionValidator(allowed_extensions=['jpg', 'webp', 'jpeg', 'png'])])
     thumb = models.CharField(max_length=120, null=True, blank=True)
     creation_time = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(max_length=255, blank=True)
     objects = models.Manager()
     custom = PicManager()
 
@@ -27,6 +32,8 @@ class Pic(models.Model):
         return reverse('vcars:pic_detail', args=[self.id])
 
     def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = unique_slugify(self, self.name)
         super().save(*args, **kwargs)
         img = Image.open(self.pic.path)
         if img.height > 320 or img.width > 320:

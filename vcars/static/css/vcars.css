@@ -58,7 +58,9 @@ footer {
     width: 100%;
 
 }
-
+form.sign-up-form{
+    padding-bottom: 10vh;
+}
 div.comment-form {
     padding-bottom: 100px;
 }

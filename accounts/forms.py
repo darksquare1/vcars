@@ -6,10 +6,9 @@ from accounts.models import Profile
 
 
 class UserLoginForm(AuthenticationForm):
-    username = UsernameField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    remember_me = forms.BooleanField(required=False)
-
+    username = UsernameField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Логин')
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Пароль')
+    remember_me = forms.BooleanField(required=False, label='Запомнить меня')
 
     class Meta:
         model = User
@@ -24,19 +23,27 @@ class UserSignUpForm(UserCreationForm):
     avatar = forms.ImageField(required=False, widget=forms.FileInput(
         attrs={'class': 'form-control'}
     ))
+    first_name = forms.CharField(max_length=100,
+                                 widget=forms.TextInput(attrs={"class": "form-control"}))
+    last_name = forms.CharField(max_length=100,
+                                widget=forms.TextInput(attrs={"class": "form-control"}))
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2', 'avatar']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'avatar']
 
 
 class UpdateUserForm(forms.ModelForm):
     username = UsernameField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=30)
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(max_length=100,
+                                 widget=forms.TextInput(attrs={"class": "form-control"}))
+    last_name = forms.CharField(max_length=100,
+                                widget=forms.TextInput(attrs={"class": "form-control"}))
 
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email']
 
 
 class UpdateProfileForm(forms.ModelForm):
