@@ -13,6 +13,7 @@ class PictureListView(ListView):
     template_name = 'vcars/list_pics.html'
     paginate_by = 6
     context_object_name = 'pics'
+    queryset = Pic.custom.all()
 
     def get_queryset(self):
         queryset = super().get_queryset()

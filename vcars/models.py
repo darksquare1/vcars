@@ -4,6 +4,11 @@ from taggit.managers import TaggableManager
 from PIL import Image
 
 
+class PicManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related('tags')
+
+
 class Pic(models.Model):
     tags = TaggableManager()
     name = models.CharField(max_length=25)
@@ -11,6 +16,8 @@ class Pic(models.Model):
     pic = models.ImageField(upload_to='images')
     thumb = models.CharField(max_length=120, null=True, blank=True)
     creation_time = models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
+    custom = PicManager()
 
     class Meta:
         ordering = ['-creation_time']
@@ -35,6 +42,7 @@ class Comment(models.Model):
     name = models.CharField(max_length=64)
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         ordering = ['-created']
         indexes = [models.Index(fields=['-created'])]
