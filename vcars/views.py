@@ -1,49 +1,65 @@
+from django.views.generic import ListView, DetailView
+
 from django.core.exceptions import MultipleObjectsReturned
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from taggit.models import Tag
-from django.core.paginator import Paginator
 from vcars.models import Pic, Comment
 from vcars.forms import CommentForm, PicForm
 
 
-def index(request, tag_slug=None):
-    query = None
-    pics = Pic.objects.all()
-    if tag_slug is not None:
-        try:
-            tag = get_object_or_404(Tag, slug=tag_slug)
-            pics = pics.filter(tags__in=[tag])
-        except MultipleObjectsReturned:
-            pass
-    if 'query' in request.GET:
-        query = request.GET.get('query')
-        search_query = SearchQuery(query)
-        search_vector = SearchVector('name', 'body', 'tags')
-        pics = pics.annotate(search=search_vector, rank=SearchRank(search_vector, search_query)).filter(search=query)
+class PictureListView(ListView):
+    model = Pic
+    template_name = 'vcars/list_pics.html'
+    paginate_by = 6
+    context_object_name = 'pics'
 
-    paginator = Paginator(pics, 6)
-    pics = paginator.get_page(request.GET.get('page', 1))
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        tag_slug = self.kwargs.get('tag_slug', None)
+        if tag_slug:
+            try:
+                tag = get_object_or_404(Tag, slug=tag_slug)
+                queryset = self.model.objects.filter(tags__in=[tag])
+            except MultipleObjectsReturned:
+                pass
+        if 'query' in self.request.GET:
+            query = self.request.GET.get('query')
+            search_query = SearchQuery(query)
+            search_vector = SearchVector('name', 'body', 'tags')
+            queryset = queryset.annotate(search=search_vector, rank=SearchRank(search_vector, search_query)).filter(
+                search=query)
+            self.kwargs['query'] = query
+        return queryset
 
-    return render(request, 'vcars/list_pics.html', {'pics': pics, 'query': query})
 
+class PicDetailView(DetailView):
+    model = Pic
+    pk_url_kwarg = 'pic_id'
+    template_name = 'vcars/pic_detail.html'
+    context_object_name = 'pic'
 
-def pic_detail(request, pic_id):
-    pic = get_object_or_404(Pic, id=pic_id)
-    comments = Comment.objects.filter(pic=pic)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = Comment.objects.filter(pic=self.object)
+        return context
 
-    if request.method == 'POST':
+    def get(self, request, *args, **kwargs):
+        initial = {}
+        if request.user.is_authenticated:
+            initial = {'name': request.user.username}
+        self.extra_context = {'form': CommentForm(initial=initial)}
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
         form = CommentForm(data=request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.pic = pic
+            comment.pic = self.object
             comment.save()
-    else:
-        if request.user.is_authenticated:
-            form = CommentForm(initial={'name': request.user.username})
-        else:
-            form = CommentForm()
-    return render(request, 'vcars/pic_detail.html', {'pic': pic, 'form': form, 'comments': comments})
+        self.extra_context = {'form': form}
+        return render(request, self.template_name, context=self.get_context_data(**kwargs))
 
 
 def post_pic(request):

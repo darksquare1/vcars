@@ -1,19 +1,13 @@
-<div class="pagination">
-  <div class="previous">
-    {% if page.has_previous %}
-      <li class="page-item">
-            <a class="page-link" href="?page={{ page.previous_page_number}}">Previous</a>
-        </li>
-    {% endif %}
-  </div>
-    <div class="pages">
-      Page {{ page.number }} of {{ page.paginator.num_pages }}.
+{% if is_paginated %}
+    <div class="pagination p-3">
+    {% for page_number in page_obj.paginator.get_elided_page_range %}
+        {% if page_number == page_obj.paginator.ELLIPSIS %}
+            {{page_number}}
+        {% else %}
+            <a href="?page={{ page_number }}" class="page-link">
+                {{page_number}}
+            </a>
+        {% endif %}
+    {% endfor %}
     </div>
-<div class="next">
-    {% if page.has_next %}
-      <li class="page-item">
-            <a class="page-link" href="?page={{ page.next_page_number}}">Next</a>
-        </li>
-    {% endif %}
-  </div>
-</div>
+{%endif%}
