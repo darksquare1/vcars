@@ -1,8 +1,9 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from django.core.exceptions import MultipleObjectsReturned
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from rest_framework.reverse import reverse_lazy
 from taggit.models import Tag
 from vcars.models import Pic, Comment
 from vcars.forms import CommentForm, PicForm
@@ -36,7 +37,6 @@ class PictureListView(ListView):
 
 class PicDetailView(DetailView):
     model = Pic
-    pk_url_kwarg = 'pic_id'
     template_name = 'vcars/pic_detail.html'
     context_object_name = 'pic'
 
@@ -63,12 +63,7 @@ class PicDetailView(DetailView):
         return render(request, self.template_name, context=self.get_context_data(**kwargs))
 
 
-def post_pic(request):
-    if request.method == 'POST':
-        form = PicForm(data=request.POST, files=request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('vcars:index')
-    else:
-        form = PicForm()
-    return render(request, 'vcars/post_pic.html', {'form': form})
+class CreatePic(CreateView):
+    form_class = PicForm
+    success_url = reverse_lazy('vcars:index')
+    template_name = 'vcars/post_pic.html'

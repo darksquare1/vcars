@@ -46,7 +46,7 @@
 
         </div>
         {% if user.is_authenticated %}
-            <span class="login">Hi, <a class='text-decoration-none' href="{% url 'profile' %}">{{ user.username }}</a></span>
+            <span class="login">Hi, <a class='text-decoration-none' href="{{user.profile.get_absolute_url}}">{{ user.username }}</a></span>
             <form class="logout-form" action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
                 <a class="text-decoration-none" href="#" onclick="parentNode.submit();">Log Out</a>

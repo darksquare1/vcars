@@ -2,12 +2,13 @@ from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from django.urls import reverse
 
 from services.utils import unique_slugify
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     avatar = models.ImageField(default='default.png', upload_to='profile_images',
                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'webp', 'jpeg', 'png'])])
     bio = models.TextField(max_length=500, blank=True, null=True)
@@ -26,3 +27,5 @@ class Profile(models.Model):
         if img.height > 100 or img.width > 100:
             img.thumbnail(size)
             img.save(self.avatar.path)
+    def get_absolute_url(self):
+        return reverse('profile', args=[self.slug])

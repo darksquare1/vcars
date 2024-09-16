@@ -58,7 +58,7 @@ footer {
     width: 100%;
 
 }
-form.sign-up-form{
+form.sign-up-form, form.redact-form{
     padding-bottom: 10vh;
 }
 div.comment-form {
@@ -79,5 +79,17 @@ form.logout-form{
 }
 div.avatar img{
 
-    border: 2px solid black
+    margin-bottom: 2vh;
+}
+div.profile{
+    text-align: center;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3vh;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    padding: 2vh 3vh;
+}
+li.list-group-item{
+    margin-bottom: 1vh;
 }

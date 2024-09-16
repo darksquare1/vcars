@@ -29,7 +29,7 @@ class Pic(models.Model):
         indexes = [models.Index(fields=['-creation_time'])]
 
     def get_absolute_url(self):
-        return reverse('vcars:pic_detail', args=[self.id])
+        return reverse('vcars:pic_detail', args=[self.slug])
 
     def save(self, *args, **kwargs):
         if not self.slug:
