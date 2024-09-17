@@ -1,6 +1,7 @@
 {% extends 'vcars/base.html' %}
 
 {% block content %}
+    {% include 'includes/successful_pic_addition.html' %}
     <div class="pic-detail">
         <h1 class="pic-name">{{ pic.name }}</h1>
         <img src="/media/{{ pic.pic }}" class="img-fluid mx-auto d-block">

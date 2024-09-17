@@ -1,7 +1,8 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, DetailView, CreateView
 
 from django.core.exceptions import MultipleObjectsReturned
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from rest_framework.reverse import reverse_lazy
 from taggit.models import Tag
@@ -63,7 +64,10 @@ class PicDetailView(DetailView):
         return render(request, self.template_name, context=self.get_context_data(**kwargs))
 
 
-class CreatePic(CreateView):
+class CreatePic(SuccessMessageMixin, CreateView):
     form_class = PicForm
-    success_url = reverse_lazy('vcars:index')
     template_name = 'vcars/post_pic.html'
+    success_message = 'Картинка успешно добавлена!'
+
+    def get_success_url(self):
+        return reverse_lazy('vcars:pic_detail', kwargs={'slug': self.object.slug})
