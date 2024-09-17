@@ -17,17 +17,28 @@
 
     </div>
     <div class="comments">
-    {% for comment in comments %}
-        <h2>{{ comment.name }}</h2>
-        <h3>{{ comment.created }}</h3>
-        <span class="comment">{{ comment.body }}</span>
-    {% endfor %}
+    <div class="col-md-8 card mb-4  mt-3 ">
+    <div class="card-body">
+       <h2>{{ comments.count }} comments</h2>
+        {% for comment in comments %}
+        <div class="comments" style="padding: 10px;">
+          <p class="font-weight-bold"> 
+           {{ comment.name }}
+            <span class=" text-muted font-weight-normal">
+              {{ comment.created }}
+            </span>
+          </p>
+          {{ comment.body | linebreaks }}
+        </div>
+        {% endfor %}
+      </div> 
+    </div>
     </div>
     <div class="comment-form">
     <form method="POST">
         {% csrf_token %}
         {{ form.as_div }}
-        <input type="submit">
+        <input type="submit" class="btn btn-primary  btn-lg">
     </form>
     </div>
 {% endblock %}

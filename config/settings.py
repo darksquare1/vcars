@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'taggit',
     'django.contrib.postgres',
     'debug_toolbar',
+    'mptt',
 ]
 
 MIDDLEWARE = [
