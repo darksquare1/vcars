@@ -1,12 +1,12 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import ListView, DetailView, CreateView
-
+from django.views.generic import ListView, DetailView, CreateView, View
+from django.http import JsonResponse
 from django.core.exceptions import MultipleObjectsReturned
 from django.shortcuts import render, get_object_or_404
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from rest_framework.reverse import reverse_lazy
 from taggit.models import Tag
-from vcars.models import Pic, Comment
+from vcars.models import Pic, Comment, Rating
 from vcars.forms import CommentForm, PicForm
 
 
@@ -71,3 +71,27 @@ class CreatePic(SuccessMessageMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy('vcars:pic_detail', kwargs={'slug': self.object.slug})
+
+
+class LikeView(View):
+    model = Rating
+
+    def post(self, request, *args, **kwargs):
+        pic_id = self.request.POST.get('pic_id')
+        val = int(request.POST.get('value'))
+        ip = request.META.get('HTTP_X_FORWARDED_FOR') if request.META.get('HTTP_X_FORWARDED_FOR') else request.META.get(
+            'REMOTE_ADDR')
+        user = request.user if request.user.is_authenticated else None
+        rating, created = self.model.objects.get_or_create(
+            pic_id=pic_id,
+            ip=ip,
+            defaults={'rating': val, 'user': user}
+        )
+        if not created:
+            if rating.rating == val:
+                rating.delete()
+            else:
+                rating.rating = val
+                rating.user = user
+                rating.save()
+        return JsonResponse({'rating_sum': rating.pic.count_rating()})

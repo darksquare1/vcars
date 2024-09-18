@@ -93,3 +93,9 @@ div.profile{
 li.list-group-item{
     margin-bottom: 1vh;
 }
+div.container{
+    padding-bottom: 10vh;
+}
+div.rating-buttons{
+    padding: 1vh;
+}

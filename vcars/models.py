@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
@@ -43,6 +44,9 @@ class Pic(models.Model):
             img.save(thumb)
             Pic.objects.filter(id=self.id).update(thumb=thumb)
 
+    def count_rating(self):
+        return sum([rating.rating for rating in self.ratings.all()])
+
 
 class Comment(models.Model):
     pic = models.ForeignKey(Pic, on_delete=models.CASCADE)
@@ -53,3 +57,16 @@ class Comment(models.Model):
     class Meta:
         ordering = ['-created']
         indexes = [models.Index(fields=['-created'])]
+
+
+class Rating(models.Model):
+    pic = models.ForeignKey(Pic, on_delete=models.CASCADE, related_name='ratings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    rating = models.IntegerField(choices=[(1, 'Нравится'), (2, 'Не нравится')])
+    created = models.DateTimeField(auto_now_add=True)
+    ip = models.GenericIPAddressField()
+
+    class Meta:
+        unique_together = ('pic', 'ip')
+        ordering = ('-created',)
+        indexes = [models.Index(fields=['created', 'rating'])]

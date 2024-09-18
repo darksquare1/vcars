@@ -1,5 +1,6 @@
 {% extends 'vcars/base.html' %}
 {% block content %}
+    {% load static %}
     <div class="album py-5">
     <div class="container">
 
@@ -23,16 +24,24 @@
                 </div>
                   {% for tag in pic.tags.all|slice:'3' %}
                   <a href="{% url 'vcars:tagged_index' tag.slug %}"><span class="badge text-bg-secondary">{{ tag.name}}</span></a>
-                   
+                    
                   {% endfor %}
               </div>
             </div>
+          <div class="rating-buttons">
+                    <button class="btn btn-sm btn-primary" data-pic="{{ pic.id }}" data-value="1">Лайк</button>
+                    <button class="btn btn-sm btn-secondary" data-pic="{{ pic.id }}" data-value="-1">Дизлайк
+                    </button>
+                    <button class="btn btn-sm btn-secondary rating-sum">{{ pic.count_rating }}</button>
+                </div>
           </div>
+        
       </div>
+              
           {% endfor %}
       </div>
     </div>
     {% include 'includes/pagination.html' %}
   </div>
-    
+    <script src={% static 'scripts/ratings.js' %}></script>
 {% endblock %}

@@ -16,11 +16,10 @@ Including another URLconf
 """
 
 from config import settings
-from accounts.forms import UserLoginForm
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth.views import LoginView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

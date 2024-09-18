@@ -3,3 +3,4 @@ from .models import *
 
 admin.site.register(Pic)
 admin.site.register(Comment)
+admin.site.register(Rating)
