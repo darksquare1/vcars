@@ -14,7 +14,6 @@ from accounts.models import Profile
 class SignUpView(generic.CreateView):
     form_class = UserSignUpForm
     template_name = 'registration/signup.html'
-    success_url = reverse_lazy('vcars:index')
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -25,7 +24,7 @@ class SignUpView(generic.CreateView):
         user.save()
         profile1.save()
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
-        return super().form_valid(form)
+        return redirect('vcars:index')
 
 
 class CustomLoginView(LoginView):
@@ -60,7 +59,6 @@ class ProfileUpdateView(UpdateView):
         return context
 
     def get_object(self, queryset=None):
-
         return self.request.user.profile
 
     def form_valid(self, form):

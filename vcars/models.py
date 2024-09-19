@@ -70,3 +70,4 @@ class Rating(models.Model):
         unique_together = ('pic', 'ip')
         ordering = ('-created',)
         indexes = [models.Index(fields=['created', 'rating'])]
+

@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
-from rest_framework.exceptions import ValidationError
+from django.core.exceptions import ValidationError
 
 from accounts.models import Profile
 
@@ -30,8 +30,10 @@ class UserSignUpForm(UserCreationForm):
                                 widget=forms.TextInput(attrs={"class": "form-control"}))
 
     def clean_email(self):
-        if User.objects.filter(email=self.cleaned_data['email']).exists():
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
             return ValidationError('Пользователь с такой почтой уже существует')
+        return email
 
     class Meta:
         model = User
