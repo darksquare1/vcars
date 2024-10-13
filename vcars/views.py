@@ -95,3 +95,4 @@ class LikeView(View):
                 rating.user = user
                 rating.save()
         return JsonResponse({'rating_sum': rating.pic.count_rating()})
+
