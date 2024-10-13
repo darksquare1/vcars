@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'debug_toolbar',
     'mptt',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'vcars_api.custom_pagination.PicListPaginatorWithMaxLimit',
     'PAGE_SIZE': 6,
+     "DEFAULT_FILTER_BACKENDS": (
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.OrderingFilter",
+        "rest_framework.filters.SearchFilter",
+    ),
 }
 
 EMAIL_HOST = 'smtp.gmail.com'
