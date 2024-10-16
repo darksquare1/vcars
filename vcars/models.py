@@ -47,6 +47,9 @@ class Pic(models.Model):
     def count_rating(self):
         return sum([rating.rating for rating in self.ratings.all()])
 
+    def __str__(self):
+        return self.name
+
 
 class Comment(models.Model):
     pic = models.ForeignKey(Pic, on_delete=models.CASCADE, related_name='comments')
