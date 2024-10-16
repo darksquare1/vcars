@@ -49,7 +49,7 @@ class Pic(models.Model):
 
 
 class Comment(models.Model):
-    pic = models.ForeignKey(Pic, on_delete=models.CASCADE)
+    pic = models.ForeignKey(Pic, on_delete=models.CASCADE, related_name='comments')
     name = models.CharField(max_length=64)
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)

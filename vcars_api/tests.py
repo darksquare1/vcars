@@ -4,7 +4,9 @@ from vcars.models import Pic
 
 
 class PicTests(APITestCase):
+    def create_pic(self, data):
+        pass
+
     def test_get_pic_list(self):
         response = self.client.get(reverse('api_vcars:list-pics'), format='json')
         assert response.data['count'] == Pic.objects.count()
-
