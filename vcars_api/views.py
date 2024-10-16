@@ -37,3 +37,15 @@ class RetrievePicApiView(generics.RetrieveAPIView):
 class AddCommentApiView(generics.CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+
+class AddPicApiView(generics.CreateAPIView):
+    queryset = Pic.objects.all()
+    serializer_class = PicSerializer
+
+    def perform_create(self, serializer):
+        tags_data = serializer.validated_data.get('tags', '')
+        if isinstance(tags_data, list):
+            tags_data = [tag.strip() for tag in tags_data[0].split(',')]
+
+        serializer.save(tags=tags_data)
