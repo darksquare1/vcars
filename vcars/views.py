@@ -96,3 +96,17 @@ class LikeView(View):
                 rating.save()
         return JsonResponse({'rating_sum': rating.pic.count_rating()})
 
+
+def custom_404(request, exception):
+    return render(request, 'errors/custom_error.html', status=404,
+                  context={'error_msg': 'К сожалению данная страница не была найдена'})
+
+
+def custom_500(request):
+    return render(request, 'errors/custom_error.html', status=500,
+                  context={'error_msg': 'Внутрення ошибка сервера, мы уже работает над исправлением'})
+
+
+def custom_403(request, exception):
+    return render(request, 'errors/custom_error.html', status=403,
+                  context={'error_msg': 'Доступ к этой странице запрещен'})
