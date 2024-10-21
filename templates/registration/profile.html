@@ -7,17 +7,19 @@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Никнейм: {{ profile.user.username }}</li>
-                {% if profile.birth_date %}
-                    <li class="list-group-item">Дата рождения: {{ profile.birth_date }}</li>
+            {% if profile.birth_date %}
+                <li class="list-group-item">Дата рождения: {{ profile.birth_date }}</li>
 
-                {% endif %}
+            {% endif %}
             <li class="list-group-item">Был в сети: {{ profile.user.last_login }}</li>
+            <li class="list-group-item">{% if profile.is_online %}В сети{% else %}Не в сети {% endif %}</li>
             {% if profile.bio %}
                 <li class="list-group-item"> О себе: <br>{{ profile.bio }}</li>
             {% endif %}
         </ul>
 
-{% if request.user == profile.user %} <a href="{% url 'profile_edit' %}" class="btn btn-sm btn-primary">Редактировать профиль</a> {% endif %}
+        {% if request.user == profile.user %}
+            <a href="{% url 'profile_edit' %}" class="btn btn-sm btn-primary">Редактировать профиль</a> {% endif %}
     </div>
 
 {% endblock %}

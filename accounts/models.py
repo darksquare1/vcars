@@ -1,9 +1,9 @@
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.contrib.auth.models import User
-from PIL import Image
 from django.urls import reverse
-
+from django.core.cache import cache
+from PIL import Image
 from services.utils import unique_slugify
 
 
@@ -27,5 +27,13 @@ class Profile(models.Model):
         if img.height > 100 or img.width > 100:
             img.thumbnail(size)
             img.save(self.avatar.path)
+
     def get_absolute_url(self):
         return reverse('profile', args=[self.slug])
+
+    def is_online(self):
+        cache_key = f'last-seen-{self.user.id}'
+        last_seen = cache.get(cache_key)
+        if last_seen is not None:
+            return True
+        return False
