@@ -21,7 +21,6 @@ INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -52,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'vcars.accounts.middleware.ActiveUserMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -134,11 +134,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'vcars_api.custom_pagination.PicListPaginatorWithMaxLimit',
     'PAGE_SIZE': 6,
-     "DEFAULT_FILTER_BACKENDS": (
+    "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
         "rest_framework.filters.SearchFilter",
     ),
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': (BASE_DIR / 'cache'),
+    }
 }
 
 EMAIL_HOST = 'smtp.gmail.com'
