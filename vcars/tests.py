@@ -67,5 +67,12 @@ class TestModelPic(TestCase):
         path = self.pic.pic.path.split('.')[1]
         self.assertIn(path, ['jpg', 'webp', 'jpeg', 'png'])
 
+    def test_get_and_delete_tags(self):
+        tags_list = [name[0] for name in self.pic.tags.values_list('name')]
+        self.assertEqual(tags_list, ['mcqueen', 'car'])
+        self.pic.tags.remove('car')
+        self.assertEqual(self.pic.tags.count(), 1)
+
     def setDown(self):
         self.img.close()
+        self.pic.delete()
