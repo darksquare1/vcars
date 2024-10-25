@@ -26,7 +26,7 @@ class PicTests(APITestCase):
     def test_add_comment(self):
         url = reverse('api_vcars:write-comment')
         self.create_pic_and_post()
-        response1 = self.client.post(url, data={'body': 'asfasfsafxz', 'name': 'jonny', 'pic': 1})
+        response1 = self.client.post(url, data={'body': 'asfasfsafxz', 'name': 'jonny', 'pic': 4})
         response2 = self.client.post(url, data={'body': 'asfasfsafxz', 'name': 'jonny', 'pic': 2})
         assert response1.status_code == HTTP_201_CREATED
         assert response2.status_code == HTTP_400_BAD_REQUEST

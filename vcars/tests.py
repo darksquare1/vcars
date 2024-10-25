@@ -1,28 +1,42 @@
 import time
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models import Manager
-from django.test import TestCase
+from django.test import TestCase, SimpleTestCase
+from django.urls import reverse, resolve
 
 from config.settings import BASE_DIR
 from vcars.models import Pic
+from vcars.views import PictureListView
 
 
-class TestModelPic(TestCase):
-    def setUp(self):
-        self.img = open(BASE_DIR / 'media/default.png', 'rb')
-        self.default_picture = SimpleUploadedFile(
+class PicCreationMixin:
+    @classmethod
+    def create_pic(cls):
+        cls.img = open(BASE_DIR / 'media/default.png', 'rb')
+        cls.default_picture = SimpleUploadedFile(
             name='default.png',
-            content=self.img.read(),
+            content=cls.img.read(),
             content_type='image/png'
         )
-        self.pic = Pic(
-            pk=1,
+        cls.pic = Pic(
             name='Car pic',
             body='Test body for pic',
-            pic=self.default_picture
+            pic=cls.default_picture
         )
-        self.pic.tags.add('mcqueen', 'car')
-        self.pic.save()
+        cls.pic.save()
+        cls.pic.tags.add('mcqueen', 'car')
+
+    @classmethod
+    def close_file_and_delete_pic(cls):
+        cls.img.close()
+        cls.pic.delete()
+
+
+class TestModelPic(PicCreationMixin, TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        super().create_pic()
 
     def test_create_pic(self):
         self.assertIsInstance(self.pic, Pic)
@@ -73,6 +87,48 @@ class TestModelPic(TestCase):
         self.pic.tags.remove('car')
         self.assertEqual(self.pic.tags.count(), 1)
 
-    def setDown(self):
-        self.img.close()
-        self.pic.delete()
+    @classmethod
+    def setDownClass(cls):
+        super().close_file_and_delete_pic()
+
+
+class TestVcarsUrls(PicCreationMixin, TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        super().create_pic()
+
+    def test_index_page(self):
+        url_path = reverse('vcars:index')
+        request = self.client.get(url_path)
+        resolver = resolve(url_path)
+        self.assertEqual(request.status_code, 200)
+        self.assertEqual(resolver.func.view_class, PictureListView)
+
+    def test_retrieve_page_url(self):
+        url_path = reverse('vcars:pic_detail', args=[self.pic.slug])
+        response = self.client.get(url_path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_pic_url(self):
+        url_path = reverse('vcars:post_pic')
+        with open(BASE_DIR / 'media/default.png', 'rb') as img:
+            response = self.client.post(url_path, {
+                'name': 'New Car Pic',
+                'body': 'Test body for new pic',
+                'pic': img,
+                'tags': ['mcqueen', 'car'],
+            })
+        self.assertEqual(response.status_code, 302)
+
+    def test_filter_by_tags_url(self):
+        url_path = reverse('vcars:tagged_index', args=['mcqueen'])
+        response = self.client.get(url_path)
+        self.assertEqual(response.status_code, 200)
+        url_path2 = reverse('vcars:tagged_index', args=['mcquklklkeen'])
+        response2 = self.client.get(url_path2)
+        self.assertEqual(response2.status_code, 404)
+
+    @classmethod
+    def setDownClass(cls):
+        super().close_file_and_delete_pic()
