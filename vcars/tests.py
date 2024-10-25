@@ -7,6 +7,7 @@ from django.urls import reverse, resolve
 from config.settings import BASE_DIR
 from vcars.models import Pic
 from vcars.views import PictureListView, PicDetailView, CreatePic
+from vcars.forms import PicForm
 
 
 class PicCreationMixin:
@@ -30,6 +31,33 @@ class PicCreationMixin:
     def close_file_and_delete_pic(cls):
         cls.img.close()
         cls.pic.delete()
+
+
+class TestPicForm(SimpleTestCase):
+    def setUp(self):
+        self.response = self.client.get(reverse('vcars:post_pic'))
+
+    def test_pic_form(self):
+        form = self.response.context.get('form')
+        self.assertIsInstance(form, PicForm)
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_validation_form(self):
+        img = open(BASE_DIR / 'media/default.png', 'rb')
+        data = {'tags': ['1', '2', 'asfsaf'], 'name': 'luigi',
+                'body': 'blabla'}
+        invalid_data = {'tags': '', 'name': '', 'body': ''}
+        files = {'pic': SimpleUploadedFile(
+            name='default.png',
+            content=img.read(),
+            content_type='image/png'
+        )}
+        valid_form = PicForm(
+            data=data, files=files)
+        invalid_form = PicForm(data=invalid_data, files=files)
+        img.close()
+        self.assertTrue(valid_form.is_valid())
+        self.assertFalse(invalid_form.is_valid())
 
 
 class TestModelPic(PicCreationMixin, TestCase):
