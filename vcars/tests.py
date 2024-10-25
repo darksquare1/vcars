@@ -125,6 +125,14 @@ class TestVcarsUrls(PicCreationMixin, TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(resolver.func.view_class, CreatePic)
 
+    def test_add_comment_url(self):
+        url_path = reverse('vcars:pic_detail', args=[self.pic.slug])
+        response = self.client.post(url_path, data={'name': 'abobus', 'body': 'comment'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'abobus')
+        self.assertContains(response, 'comment')
+        self.assertTrue(Pic.objects.get(pk=2).comments.count())
+
     def test_filter_by_tags_url(self):
         url_path = reverse('vcars:tagged_index', args=['mcqueen'])
         resolver = resolve(url_path)
