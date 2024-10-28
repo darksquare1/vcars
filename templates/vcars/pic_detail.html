@@ -1,4 +1,5 @@
 {% extends 'vcars/base.html' %}
+{% load static %}
 
 {% block content %}
     {% include 'includes/successful_pic_addition.html' %}
@@ -19,7 +20,7 @@
     <div class="comments">
     <div class="col-md-8 card mb-4  mt-3 ">
     <div class="card-body" id="comments-body">
-       <h2>{{ comments.count }} comments</h2>
+       <h2 id="comments-count">{{ comments.count }} comments</h2>
         {% for comment in comments %}
             {% include 'includes/comment.html' %}
         {% endfor %}
@@ -33,4 +34,5 @@
         <input type="submit" class="btn btn-primary  btn-lg">
     </form>
     </div>
+    <script src="{% static 'scripts/comments_counter.js' %}"></script>
 {% endblock %}
