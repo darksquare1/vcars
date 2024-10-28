@@ -15,7 +15,7 @@
     <title>{% block title %} {% endblock %}</title>
 
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'vcars:index' %}">
@@ -64,6 +64,8 @@
     </div>
 </nav>
 <main>
+    
+    <script src="https://unpkg.com/htmx.org@1.9.4"></script>
     <script src="{% static 'scripts/searchhook.js' %}"></script>
     {% block content %}
 

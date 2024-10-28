@@ -18,24 +18,16 @@
     </div>
     <div class="comments">
     <div class="col-md-8 card mb-4  mt-3 ">
-    <div class="card-body">
+    <div class="card-body" id="comments-body">
        <h2>{{ comments.count }} comments</h2>
         {% for comment in comments %}
-        <div class="comments" style="padding: 10px;">
-          <p class="font-weight-bold"> 
-           {{ comment.name }}
-            <span class=" text-muted font-weight-normal">
-              {{ comment.created }}
-            </span>
-          </p>
-          {{ comment.body | linebreaks }}
-        </div>
+            {% include 'includes/comment.html' %}
         {% endfor %}
       </div> 
     </div>
     </div>
     <div class="comment-form">
-    <form method="POST">
+    <form hx-post="{{pic.get_absolute_url}}" hx-target="#comments-body" hx-swap="beforeend">
         {% csrf_token %}
         {{ form.as_div }}
         <input type="submit" class="btn btn-primary  btn-lg">

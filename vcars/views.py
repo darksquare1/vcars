@@ -60,8 +60,7 @@ class PicDetailView(DetailView):
             comment = form.save(commit=False)
             comment.pic = self.object
             comment.save()
-        self.extra_context = {'form': form}
-        return render(request, self.template_name, context=self.get_context_data(**kwargs))
+        return render(request, 'includes/comment.html', context={'comment':comment})
 
 
 class CreatePic(SuccessMessageMixin, CreateView):
