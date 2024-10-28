@@ -58,8 +58,8 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created']
-        indexes = [models.Index(fields=['-created'])]
+        ordering = ['created']
+        indexes = [models.Index(fields=['created'])]
 
 
 class Rating(models.Model):
