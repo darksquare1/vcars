@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/', include('vcars_api.urls', namespace='api_vcars')),
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('chat/', include('chat.urls')),
 
 ]
 if settings.DEBUG:
