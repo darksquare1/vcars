@@ -1,6 +1,6 @@
-from email.headerregistry import Group
-
-from django.views.generic import ListView
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from chat.models import ChatGroup
 
@@ -11,3 +11,23 @@ class GroupListView(LoginRequiredMixin, ListView):
     context_object_name = 'groups'
 
 
+class GroupDetailView(LoginRequiredMixin, DetailView):
+    model = ChatGroup
+    context_object_name = 'group'
+    template_name = 'chat/group_detail.html'
+    def get_object(self, queryset=None):
+        return get_object_or_404(ChatGroup, uuid=self.kwargs['uuid'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        group = self.object
+        messages = group.message_set.all()
+        events = group.event.all()
+        context['message_and_event_list'] = sorted([*messages, *events], key=lambda i: i.timestamp)
+        context['group_members'] = group.members.all()
+        return context
+
+    def get(self, request, *args, **kwargs):
+        if request.user not in self.get_object().members.all():
+            return HttpResponseForbidden('Вы не присоединены к данному чату')
+        return super().get(request, *args, **kwargs)

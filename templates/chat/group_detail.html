@@ -1,0 +1,29 @@
+{% extends 'vcars/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Чат</h1>
+    
+    <div class="mb-3">
+        <textarea id="chat-log" class="form-control" rows="20" readonly></textarea>
+    </div>
+    
+    <div class="input-group mb-3">
+        <input id="chat-message-input" type="text" class="form-control" placeholder="Введите ваше сообщение..." aria-label="Chat message">
+        <button id="chat-message-submit" type="button" class="btn btn-primary">Send</button>
+    </div>
+
+    <script>
+        document.querySelector('#chat-log').value = "";
+        {% for message_event in message_and_event_list %}
+            document.querySelector('#chat-log').value += ({{ message_event }} + '\n');
+        {% endfor %}
+    </script>
+
+    <h3>Участники группы</h3>
+    <ul id="members" class="list-group">
+        {% for member in group_members %}
+            <li id="members-{{ member.username }}" class="list-group-item">{{ member }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
