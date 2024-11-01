@@ -13,16 +13,16 @@ class ChatGroup(models.Model):
         return f'Group {self.name}-{self.uuid}'
 
     def get_absolute_url(self):
-        return reverse('chat:group', args=[str(self.uuid)])
+        return reverse('chat:group', args=[self.uuid])
 
     def add_user_to_group(self, user):
         self.members.add(user)
-        self.event.create(type='Join', user=user)
+        self.event.create(type=Event.EventChoice.JOIN, user=user)
         self.save()
 
     def remove_user_from_group(self, user):
         self.members.remove(user)
-        self.event.create(type='Left', user=user)
+        self.event.create(type=Event.EventChoice.LEFT, user=user)
         self.save()
 
 
@@ -36,3 +36,22 @@ class Message(models.Model):
         date = self.timestamp.date()
         time = self.timestamp.time()
         return f"{self.author}:- {self.body} @{date} {time.hour}:{time.minute}"
+
+
+class Event(models.Model):
+    class EventChoice(models.TextChoices):
+        JOIN = 'Join', 'join'
+        LEFT = 'Left', 'left'
+
+    type = models.CharField(choices=EventChoice.choices, max_length=10)
+    description = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    group = models.ForeignKey(ChatGroup, on_delete=models.CASCADE, related_name='event')
+
+    def save(self, *args, **kwargs):
+        self.description = f'{self.user.username} {self.type} the {self.group.name} group'
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.description
