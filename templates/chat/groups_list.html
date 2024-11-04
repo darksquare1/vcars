@@ -1,4 +1,5 @@
 {% extends 'vcars/base.html' %}
+{% load static %}
 {% block content %}
     <div class="container mt-4">
         <h1 class="text-center">Список чатов</h1>
@@ -8,14 +9,17 @@
                     <span>{{ group.name }}</span>
                     <div>
                         {% if request.user in group.members.all %}
-                            <button id="leave-{{ group.uuid }}" class="btn btn-danger btn-sm me-2" value="leave_group {{ group.uuid }}">
+                            <button id="leave-{{ group.uuid }}" class="btn btn-danger btn-sm me-2"
+                                    value="leave_group {{ group.uuid }}">
                                 Leave
                             </button>
-                            <button id="open-{{ group.uuid }}" class="btn btn-primary btn-sm" value="open_group {{ group.uuid }}">
+                            <button id="open-{{ group.uuid }}" class="btn btn-primary btn-sm"
+                                    value="open_group {{ group.uuid }}">
                                 Open
                             </button>
                         {% else %}
-                            <button id="join-{{ group.uuid }}" class="btn btn-success btn-sm" value="join_group {{ group.uuid }}">
+                            <button id="join-{{ group.uuid }}" class="btn btn-success btn-sm"
+                                    value="join_group {{ group.uuid }}">
                                 Join
                             </button>
                         {% endif %}
@@ -24,4 +28,5 @@
             {% endfor %}
         </ul>
     </div>
+    <script src="{% static 'scripts/groups_list.js' %}"></script>
 {% endblock content %}
