@@ -5,9 +5,9 @@
         <h1 class="text-center">Список чатов</h1>
         <ul class="list-group">
             {% for group in groups %}
-                <li class="list-group-item d-flex justify-content-between align-items-center" id="{{ group.uuid }}">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
                     <span>{{ group.name }}</span>
-                    <div>
+                    <div id={{ group.uuid }}>
                         {% if request.user in group.members.all %}
                             <button id="leave-{{ group.uuid }}" class="group-option btn btn-danger btn-sm me-2"
                                     value="leave_group {{ group.uuid }}">
