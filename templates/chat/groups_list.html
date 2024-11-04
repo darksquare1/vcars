@@ -9,16 +9,16 @@
                     <span>{{ group.name }}</span>
                     <div>
                         {% if request.user in group.members.all %}
-                            <button id="leave-{{ group.uuid }}" class="btn btn-danger btn-sm me-2"
+                            <button id="leave-{{ group.uuid }}" class="group-option btn btn-danger btn-sm me-2"
                                     value="leave_group {{ group.uuid }}">
                                 Leave
                             </button>
-                            <button id="open-{{ group.uuid }}" class="btn btn-primary btn-sm"
+                            <button id="open-{{ group.uuid }}" class="group-option btn btn-primary btn-sm"
                                     value="open_group {{ group.uuid }}">
                                 Open
                             </button>
                         {% else %}
-                            <button id="join-{{ group.uuid }}" class="btn btn-success btn-sm"
+                            <button id="join-{{ group.uuid }}" class="group-option btn btn-success btn-sm"
                                     value="join_group {{ group.uuid }}">
                                 Join
                             </button>
