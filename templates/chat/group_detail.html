@@ -12,7 +12,8 @@
                    aria-label="Chat message">
             <button id="chat-message-submit" type="button" class="btn btn-primary">Send</button>
         </div>
-
+        <script>
+        </script>
         <h3>Участники группы</h3>
         <ul id="members" class="list-group">
             {% for member in group_members %}
@@ -21,18 +22,9 @@
         </ul>
     </div>
     <script>
-        const message_and_event_list = `{{ message_and_event_list }}`.split(";")
-        console.log(typeof (message_and_event_list))
-        console.log(message_and_event_list)
-        for (let message of message_and_event_list) {
-            if (message.startsWith("Event")) {
-                document.querySelector('#chat-log').value += message.slice(7, message.length - 3) + '\n'
-            }
-            if (message.startsWith("Message")) {
-                document.querySelector('#chat-log').value += message.slice(9, message.length - 3) + '\n'
-            }
-
-        }
+        {% for message in message_and_event_list %}
+            document.querySelector('#chat-log').value += `{{message}}` + "\n"
+        {% endfor %}
         const base_url = `${window.location.host}${window.location.pathname}`
         const chatSocket = new WebSocket(`ws://${base_url}`)
         chatSocket.onopen = function (e) {
@@ -40,7 +32,7 @@
         };
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data)
-            document.querySelector('#chat-log').value += (data.message + '\n')
+            document.querySelector("#chat-log").value += (data.message + "\n")
             let status = data.status
             let user = data.user
             if (status === "Left") {
@@ -61,10 +53,10 @@
             console.error("Chat socket closed unexpectedly");
         };
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function (e) {
+        document.querySelector("#chat-message-input").focus();
+        document.querySelector("#chat-message-input").onkeyup = function (e) {
             if (e.keyCode === 13) {
-                document.querySelector('#chat-message-submit').click();
+                document.querySelector("#chat-message-submit").click();
             }
         };
 
@@ -72,11 +64,11 @@
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
-                'type': "text_message",
-                'author': `{{request.user}}`,
-                'message': message
+                "type": "text_message",
+                "author": `{{request.user}}`,
+                "message": message
             }));
-            messageInputDom.value = '';
+            messageInputDom.value = "";
         };
 
     </script>

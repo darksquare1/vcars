@@ -2,7 +2,7 @@ const base_url = `${window.location.hostname}:${window.location.port}${window.lo
 const websocket = new WebSocket(`ws://${base_url}`)
 
 websocket.onopen = function (event) {
-    console.log('connection opened')
+    console.log("connection opened")
 }
 websocket.onmessage = function (event) {
     let message = JSON.parse(event.data)
@@ -21,10 +21,10 @@ websocket.onmessage = function (event) {
 }
 
 function add_event_to_buttons() {
-    const buttons = document.querySelectorAll('.group-option')
+    const buttons = document.querySelectorAll(".group-option")
     console.log(buttons)
     buttons.forEach(button => {
-        button.addEventListener('click', send_event_message)
+        button.addEventListener("click", send_event_message)
     })
 }
 
