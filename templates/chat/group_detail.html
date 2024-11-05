@@ -1,29 +1,78 @@
 {% extends 'vcars/base.html' %}
 {% block content %}
-<div class="container mt-4">
-    <h1 class="text-center">Чат</h1>
-    
-    <div class="mb-3">
-        <textarea id="chat-log" class="form-control" rows="20" readonly></textarea>
-    </div>
-    
-    <div class="input-group mb-3">
-        <input id="chat-message-input" type="text" class="form-control" placeholder="Введите ваше сообщение..." aria-label="Chat message">
-        <button id="chat-message-submit" type="button" class="btn btn-primary">Send</button>
-    </div>
+    <div class="container mt-4">
+        <h1 class="text-center">Чат</h1>
 
+        <div class="mb-3">
+            <textarea id="chat-log" class="form-control" rows="20" readonly></textarea>
+        </div>
+
+        <div class="input-group mb-3">
+            <input id="chat-message-input" type="text" class="form-control" placeholder="Введите ваше сообщение..."
+                   aria-label="Chat message">
+            <button id="chat-message-submit" type="button" class="btn btn-primary">Send</button>
+        </div>
+
+        <script>
+            document.querySelector('#chat-log').value = "";
+            {% for message_event in message_and_event_list %}
+                document.querySelector('#chat-log').value += ({{ message_event }} + '\n');
+            {% endfor %}
+        </script>
+
+        <h3>Участники группы</h3>
+        <ul id="members" class="list-group">
+            {% for member in group_members %}
+                <li id="members-{{ member.username }}" class="list-group-item">{{ member }}</li>
+            {% endfor %}
+        </ul>
+    </div>
     <script>
-        document.querySelector('#chat-log').value = "";
-        {% for message_event in message_and_event_list %}
-            document.querySelector('#chat-log').value += ({{ message_event }} + '\n');
-        {% endfor %}
-    </script>
+        const base_url = `${window.location.host}${window.location.pathname}`
+        const chatSocket = new WebSocket(`ws://${base_url}`)
+        chatSocket.onopen = function (e) {
+            console.log("connected")
+        };
+        chatSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data)
+            document.querySelector('#chat-log').value += (data.message + '\n')
+            let status = data.status
+            let user = data.user
+            if (status === "Left") {
+                document.getElementById(`members-${user}`).remove()
+            } else if (status === "Join") {
+                let members_list = document.getElementById("members")
+                let members_item = document.createElement("li")
+                members_item.innerHTML = user
+                members_list.className = "list-group-item"
+                members_item.setAttribute("id", `members-${user}`)
 
-    <h3>Участники группы</h3>
-    <ul id="members" class="list-group">
-        {% for member in group_members %}
-            <li id="members-{{ member.username }}" class="list-group-item">{{ member }}</li>
-        {% endfor %}
-    </ul>
-</div>
+                console.log(members_item)
+                members_list.appendChild(members_item)
+            }
+        }
+
+        chatSocket.onclose = function (e) {
+            console.error("Chat socket closed unexpectedly");
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function (e) {
+            if (e.keyCode === 13) {
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function (e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'type': "text_message",
+                'author': `{{request.user}}`,
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+
+    </script>
 {% endblock content %}
