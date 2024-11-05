@@ -32,6 +32,20 @@
         const chatSocket = new WebSocket(`ws://${base_url}`)
         chatSocket.onopen = function (e) {
             console.log("connected")
+            const message_and_event_list = `{{ message_and_event_list }}`.split(";")
+            console.log(typeof(message_and_event_list))
+            console.log(message_and_event_list)
+            for (let message of message_and_event_list){
+                if (message.startsWith("Event")){
+                    document.querySelector('#chat-log').value += message.slice(7, message.length-3)+ '\n'
+                }
+                if (message.startsWith("Message")){
+                    document.querySelector('#chat-log').value += message.slice(9, message.length-3)+ '\n'
+                }
+                
+            }
+            
+        
         };
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data)
