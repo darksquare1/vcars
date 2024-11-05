@@ -13,13 +13,6 @@
             <button id="chat-message-submit" type="button" class="btn btn-primary">Send</button>
         </div>
 
-        <script>
-            document.querySelector('#chat-log').value = "";
-            {% for message_event in message_and_event_list %}
-                document.querySelector('#chat-log').value += ({{ message_event }} + '\n');
-            {% endfor %}
-        </script>
-
         <h3>Участники группы</h3>
         <ul id="members" class="list-group">
             {% for member in group_members %}
@@ -28,24 +21,22 @@
         </ul>
     </div>
     <script>
+        const message_and_event_list = `{{ message_and_event_list }}`.split(";")
+        console.log(typeof (message_and_event_list))
+        console.log(message_and_event_list)
+        for (let message of message_and_event_list) {
+            if (message.startsWith("Event")) {
+                document.querySelector('#chat-log').value += message.slice(7, message.length - 3) + '\n'
+            }
+            if (message.startsWith("Message")) {
+                document.querySelector('#chat-log').value += message.slice(9, message.length - 3) + '\n'
+            }
+
+        }
         const base_url = `${window.location.host}${window.location.pathname}`
         const chatSocket = new WebSocket(`ws://${base_url}`)
         chatSocket.onopen = function (e) {
             console.log("connected")
-            const message_and_event_list = `{{ message_and_event_list }}`.split(";")
-            console.log(typeof(message_and_event_list))
-            console.log(message_and_event_list)
-            for (let message of message_and_event_list){
-                if (message.startsWith("Event")){
-                    document.querySelector('#chat-log').value += message.slice(7, message.length-3)+ '\n'
-                }
-                if (message.startsWith("Message")){
-                    document.querySelector('#chat-log').value += message.slice(9, message.length-3)+ '\n'
-                }
-                
-            }
-            
-        
         };
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data)
