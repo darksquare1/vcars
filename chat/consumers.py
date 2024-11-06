@@ -57,16 +57,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
         returned_data = dict(type='text_message', message=message, group_uuid=self.group_uuid)
         await self.send(json.dumps(returned_data))
 
-    async def event_message(self, event):
-        message = event.get("message")
-        user = event.get("user", None)
-        await self.send(
-            json.dumps(
-                {
-                    "type": "event_message",
-                    "message": message,
-                    "status": event.get("status", None),
-                    "user": user
-                }
-            )
-        )
+

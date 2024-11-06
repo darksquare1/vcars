@@ -15,6 +15,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
     model = ChatGroup
     context_object_name = 'group'
     template_name = 'chat/group_detail.html'
+
     def get_object(self, queryset=None):
         return get_object_or_404(ChatGroup, uuid=self.kwargs['uuid'])
 
