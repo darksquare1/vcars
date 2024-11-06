@@ -41,8 +41,3 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         if request.user not in self.get_object().members.all():
             return HttpResponseForbidden('Вы не присоединены к данному чату')
         return super().get(request, *args, **kwargs)
-
-
-class CreateGroupView(LoginRequiredMixin, CreateView):
-    model = ChatGroup
-    template_name = ''
