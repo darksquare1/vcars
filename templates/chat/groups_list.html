@@ -5,28 +5,15 @@
         <h1 class="text-center">Список чатов</h1>
         <ul class="list-group">
             {% for group in groups %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>{{ group.name }}</span>
-                    <div id={{ group.uuid }}>
-                        {% if request.user in group.members.all %}
-                            <button id="leave-{{ group.uuid }}" class="group-option btn btn-danger btn-sm me-2"
-                                    value="leave_group {{ group.uuid }}">
-                                Leave
-                            </button>
-                            <button id="open-{{ group.uuid }}" class="group-option btn btn-primary btn-sm"
-                                    value="open_group {{ group.uuid }}">
-                                Open
-                            </button>
-                        {% else %}
-                            <button id="join-{{ group.uuid }}" class="group-option btn btn-success btn-sm"
-                                    value="join_group {{ group.uuid }}">
-                                Join
-                            </button>
-                        {% endif %}
-                    </div>
-                </li>
+                {% include 'includes/group_includes.html' %}
             {% endfor %}
         </ul>
+     <form class='add-chat' hx-post="{% url 'chat:group_list' %}" hx-target=".list-group" hx-swap="beforeend">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <input type="submit" class="btn btn-primary  btn-sm add-chat-btn" value="Создать">
+    </form>
     </div>
+    
     <script src="{% static 'scripts/groups_list.js' %}"></script>
 {% endblock content %}

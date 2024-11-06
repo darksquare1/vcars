@@ -69,4 +69,20 @@ function join_group_handler(uuid) {
     add_event_to_buttons()
 }
 
+document.body.addEventListener("htmx:afterSwap", function (event) {
+    if (event.target.classList.contains("list-group")) {
+        add_event_to_buttons()
+    }
+    const inputField = document.getElementById("name-field");
+    console.log(inputField.value)
+    if (inputField) {
+        inputField.value = ""
+    }
+
+});
+console.log(document.getElementsByClassName("add-chat-btn"))
+document.getElementsByClassName("add-chat-btn").onclick = function(e) {
+
+  document.getElementById("name-field").value = "";
+}
 add_event_to_buttons()

@@ -1,7 +1,9 @@
-from django.http import HttpResponseForbidden
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.http import HttpResponseForbidden, HttpResponseBadRequest
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from chat.forms import ChatGroupForm
 from chat.models import ChatGroup
 
 
@@ -9,6 +11,13 @@ class GroupListView(LoginRequiredMixin, ListView):
     model = ChatGroup
     template_name = 'chat/groups_list.html'
     context_object_name = 'groups'
+    extra_context = {'form': ChatGroupForm()}
+
+    def post(self, request, *args, **kwargs):
+        form = ChatGroupForm(request.POST)
+        if form.is_valid():
+            group = form.save()
+            return render(request, 'includes/group_includes.html', {'group': group})
 
 
 class GroupDetailView(LoginRequiredMixin, DetailView):
@@ -32,3 +41,8 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         if request.user not in self.get_object().members.all():
             return HttpResponseForbidden('Вы не присоединены к данному чату')
         return super().get(request, *args, **kwargs)
+
+
+class CreateGroupView(LoginRequiredMixin, CreateView):
+    model = ChatGroup
+    template_name = ''

@@ -8,6 +8,7 @@ class ChatGroup(models.Model):
     uuid = models.UUIDField(default=uuid4, editable=False)
     name = models.CharField(max_length=25)
     members = models.ManyToManyField(User)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
         return f'Group {self.name}-{self.uuid}'
@@ -24,6 +25,9 @@ class ChatGroup(models.Model):
         self.members.remove(user)
         self.event.create(type=Event.EventChoice.LEFT, user=user)
         self.save()
+
+    class Meta:
+        ordering = ['created_at']
 
 
 class Message(models.Model):

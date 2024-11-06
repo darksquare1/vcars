@@ -1,0 +1,20 @@
+<li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ group.name }}</span>
+                    <div id={{ group.uuid }}>
+                        {% if request.user in group.members.all %}
+                            <button id="leave-{{ group.uuid }}" class="group-option btn btn-danger btn-sm me-2"
+                                    value="leave_group {{ group.uuid }}">
+                                Leave
+                            </button>
+                            <button id="open-{{ group.uuid }}" class="group-option btn btn-primary btn-sm"
+                                    value="open_group {{ group.uuid }}">
+                                Open
+                            </button>
+                        {% else %}
+                            <button id="join-{{ group.uuid }}" class="group-option btn btn-success btn-sm"
+                                    value="join_group {{ group.uuid }}">
+                                Join
+                            </button>
+                        {% endif %}
+                    </div>
+                </li>
