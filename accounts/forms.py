@@ -32,7 +32,7 @@ class UserSignUpForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(email=email).exists():
-            return ValidationError('Пользователь с такой почтой уже существует')
+            raise ValidationError('Пользователь с такой почтой уже существует')
         return email
 
     class Meta:
