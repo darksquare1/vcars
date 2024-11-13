@@ -16,7 +16,7 @@
             <div>
                 <div>
                     <div>
-                        
+
                         <label>Никнейм</label>
                         {{ user_form.username }}
                         <hr>
@@ -31,16 +31,15 @@
                     </div>
 
 
-                        <hr>
-                        <label>Сменить аватар:</label>
-                        {{ form.avatar }}
-                        <hr>
-                        <label>Дата рождения:</label>
-                        {{ form.birth_date }}
                     <hr>
-                        <label>О себе:</label>
-                        {{ form.bio }}
-                    <a href="{% url 'password_change' %}" class="text-decoration-none">Сменить пароль</a>
+                    <label>Сменить аватар:</label>
+                    {{ form.avatar }}
+                    <hr>
+                    <label>Дата рождения:</label>
+                    {{ form.birth_date }}
+                    <hr>
+                    <label>О себе:</label>
+                    {{ form.bio }}
                 </div>
             </div>
             <button type="submit" class="btn btn-primary btn-lg">Сохранить изменения</button>
