@@ -1,3 +1,5 @@
+import uuid
+
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.contrib.auth.models import User
@@ -15,6 +17,7 @@ class Profile(models.Model):
     birth_date = models.DateField(blank=True, null=True)
     slug = models.SlugField(max_length=255, blank=True)
     is_verified = models.BooleanField(default=False)
+    verification_uuid = models.UUIDField(default=uuid.uuid4)
 
     def __str__(self):
         return self.user.username
