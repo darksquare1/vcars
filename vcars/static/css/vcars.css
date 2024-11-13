@@ -62,7 +62,8 @@ form.sign-up-form, form.redact-form{
     padding-bottom: 10vh;
 }
 div.comment-form {
-    padding-bottom: 100px;
+    padding-bottom: 7vh;
+    padding-left: 7vh;
 }
 
 span.comment {
