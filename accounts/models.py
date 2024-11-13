@@ -14,6 +14,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
     slug = models.SlugField(max_length=255, blank=True)
+    is_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
