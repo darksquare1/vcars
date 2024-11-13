@@ -16,6 +16,7 @@
             {% if profile.bio %}
                 <li class="list-group-item"> О себе: <br>{{ profile.bio }}</li>
             {% endif %}
+            <li class="list-group-item">Верифицирован: {% if profile.is_verified %}Да{% else %}Нет {% endif %}</li>
         </ul>
 
         {% if request.user == profile.user %}

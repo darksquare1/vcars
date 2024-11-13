@@ -1,11 +1,12 @@
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.db import transaction
+from django.http import Http404
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse
 from django.views import generic
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, View
 
 from accounts.forms import UserSignUpForm, UserLoginForm, UpdateUserForm, UpdateProfileForm
 from accounts.models import Profile
@@ -75,3 +76,15 @@ class ProfileUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('profile', args=[self.object.slug])
+
+class VerifyView(View):
+    def get(self, request, *args, **kwargs):
+        uuid = kwargs.get('uuid')
+        try:
+            user = User.objects.get(profile__is_verified=False, profile__verification_uuid=uuid)
+        except User.DoesNotExist:
+            raise Http404('Пользователь не существует или уже был верифицирован')
+
+        user.profile.is_verified = True
+        user.profile.save()
+        return render(request, 'registration/verify.html')
