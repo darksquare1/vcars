@@ -2,14 +2,18 @@
     let isPause = false
     let animationId = null
 
-    const speed = 3
+    const speed = 10
 
     const car = document.querySelector('.car')
     const bushes = document.querySelectorAll('.bush')
     const mountains = document.querySelectorAll('.mountain')
-    const bush1 = bushes[0]
-    const coordsBush1 = getCoords(bush1)
-
+    const sprites = [...bushes, ...mountains]
+    const spriteCoords = []
+    for (let i = 0; i < sprites.length; i++) {
+        const sprite = sprites[i]
+        const spriteCoord = getCoords(sprite)
+        spriteCoords.push(spriteCoord)
+    }
     animationId = requestAnimationFrame(startGame)
 
     function startGame() {
@@ -18,9 +22,19 @@
     }
 
     function spritesAnimation() {
-        const newY = coordsBush1.y + speed
-        coordsBush1.y = newY
-        bush1.style.transform = `translate(${coordsBush1.x}px, ${newY}px)`
+        for (let i = 0; i < sprites.length; i++){
+            const sprite = sprites[i]
+            const coords = spriteCoords[i]
+            let newY = coords.y + speed
+
+            if (newY > window.innerHeight){
+                newY = -700
+            }
+            spriteCoords[i].y = newY
+            sprite.style.transform = `translate(${coords.x}px, ${newY}px)`
+
+        }
+
     }
 
     function getCoords(element) {
