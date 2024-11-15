@@ -1,0 +1,28 @@
+<html lang="ru">
+{% load static %}
+<head>
+    <title>mcqueen racing</title>
+    <link rel="stylesheet" href="{% static 'css/game_style.css' %}">
+</head>
+<body>
+<div class="road"></div>
+<img src='{% static 'images/car.png' %}' class="car">
+<img src='{% static 'images/bush1.png' %}' class='bush bush1'>
+<img src='{% static 'images/bush2.png' %}' class='bush bush2'>
+<img src='{% static 'images/bush3.png' %}' class='bush bush3'>
+<img src='{% static 'images/bush4.png' %}' class='bush bush4'>
+<img src='{% static 'images/bush5.png' %}' class='bush bush5'>
+<img src='{% static 'images/bush6.png' %}' class='bush bush6'>
+<img src='{% static 'images/mountain1.png' %}' class='mountain1'>
+<img src='{% static 'images/mountain2.png' %}' class='mountain2'>
+
+<!--    <img src='images/arrow.png' class='arrow'>-->
+<!--    <img src='images/detour.png' class='danger'>-->
+<!--    <img src='images/coin.png' class='coin'>-->
+
+<button type="button" class="game-button">
+    <img src={% static 'images/pause.png' %}/>
+</button>
+<script src={% static 'scripts/game.js' %}></script>
+</body>
+</html>

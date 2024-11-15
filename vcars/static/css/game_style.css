@@ -1,0 +1,103 @@
+body {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    background: #efbe8d;
+    overflow: hidden;
+}
+
+.car {
+    position: absolute;
+    width: 120px;
+    bottom: 0;
+
+}
+
+.road {
+    background: #35291d;
+    width: 300px;
+    height: 100vh;
+}
+
+.bush {
+    position: absolute;
+}
+
+.bush1 {
+    width: 250px;
+    transform: translate(-250px, -10vh);
+}
+
+.bush2 {
+    width: 200px;
+    transform: translate(-290px, 30vh);
+}
+
+.bush3 {
+    width: 230px;
+    transform: translate(-255px, 70vh);
+}
+
+.bush4 {
+    transform: translate(275px, -5vh);
+    width: 280px;
+}
+
+.bush5 {
+    transform: translate(260px, 40vh);
+    width: 240px;
+}
+
+.bush6 {
+    transform: translate(270px, 80vh);
+    width: 270px;
+}
+
+.mountain1 {
+    position: absolute;
+    width: 300px;
+    height: 700px;
+    transform: translate(620px, 20vh);
+}
+
+.mountain2 {
+    position: absolute;
+    width: 300px;
+    height: 700px;
+    transform: translate(-620px, 5vh);
+}
+
+.game-button {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform .3s ease;
+}
+
+.game-button:hover {
+    transform: scale(1.2);
+}
+
+.game-button img {
+    width: 60px;
+    height: 60px;
+}
+
+.danger {
+    width: 80px;
+    position: absolute;
+}
+
+.coin {
+    width: 50px;
+    position: absolute;
+}
+
+.arrow {
+    width: 50px;
+    position: absolute;
+}
