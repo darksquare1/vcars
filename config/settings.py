@@ -46,9 +46,14 @@ INSTALLED_APPS = [
 ]
 CACHES = {
     'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': '127.0.0.1:11211',
+    },
+    'file_cache': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': (BASE_DIR / 'cache'),
     }
+
 }
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,7 +93,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": ['redis://127.0.0.1:6379',],
+            "hosts": ['redis://127.0.0.1:6379', ],
         },
     },
 }

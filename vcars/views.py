@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.core.exceptions import MultipleObjectsReturned
 from django.shortcuts import render, get_object_or_404
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.core.cache import cache
 from rest_framework.reverse import reverse_lazy
 from taggit.models import Tag
 from vcars.models import Pic, Comment, Rating
@@ -18,12 +19,12 @@ class PictureListView(ListView):
     queryset = Pic.custom.all()
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = cache.get_or_set('cached_pics_list', super().get_queryset())
         tag_slug = self.kwargs.get('tag_slug', None)
         if tag_slug:
             try:
                 tag = get_object_or_404(Tag, slug=tag_slug)
-                queryset = self.model.objects.filter(tags__in=[tag])
+                queryset = queryset.filter(tags__in=[tag])
             except MultipleObjectsReturned:
                 pass
         if 'query' in self.request.GET:
@@ -60,7 +61,7 @@ class PicDetailView(DetailView):
             comment = form.save(commit=False)
             comment.pic = self.object
             comment.save()
-        return render(request, 'includes/comment.html', context={'comment':comment})
+        return render(request, 'includes/comment.html', context={'comment': comment})
 
 
 class CreatePic(SuccessMessageMixin, CreateView):
@@ -70,6 +71,10 @@ class CreatePic(SuccessMessageMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy('vcars:pic_detail', kwargs={'slug': self.object.slug})
+
+    def form_valid(self, form):
+        cache.delete('cached_pics_list')
+        return super().form_valid(form)
 
 
 class LikeView(View):
