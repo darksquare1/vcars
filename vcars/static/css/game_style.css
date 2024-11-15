@@ -73,7 +73,18 @@ body {
     height: 700px;
     transform: translate(-620px, 5vh);
 }
-
+.mountain3 {
+    position: absolute;
+    width: 320px;
+    height: 670px;
+    transform: translate(820px, 100vh);
+}
+.mountain4 {
+    position: absolute;
+    width: 340px;
+    height: 650px;
+    transform: translate(-720px, 70vh);
+}
 .game-button {
     position: fixed;
     right: 10px;

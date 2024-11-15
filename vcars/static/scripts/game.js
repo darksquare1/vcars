@@ -2,7 +2,7 @@
     let isPause = false
     let animationId = null
 
-    const speed = 10
+    const speed = 3
 
     const car = document.querySelector('.car')
     const bushes = document.querySelectorAll('.bush')
