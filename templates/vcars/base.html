@@ -1,5 +1,6 @@
 {% load static %}
 {% load django_bootstrap5 %}
+{% load cache %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,8 @@
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 <nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
+    {% cache 600 header %}
+        <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'vcars:index' %}">
             <img src="{% static 'images/icon.png' %}" alt="Logo" width="30" height="24"
                  class="d-inline-block align-text-top">
@@ -46,24 +48,26 @@
             </ul>
 
         </div>
-        {% if user.is_authenticated %}
-            <span class="login">Hi, <a class='text-decoration-none'
-                                       href="{{ user.profile.get_absolute_url }}">{{ user.username }}</a></span>
-            <form class="logout-form" action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <a class="text-decoration-none" href="#" onclick="parentNode.submit();">Log Out</a>
-            </form>
-        {% else %}
-            <span class="login">You are not <a href="{% url 'login' %}"
-                                               class="text-decoration-none">logged in</a></span>
-        {% endif %}
-        <form class="d-flex" id="search-form" role="search" method="GET">
-            <input id="search-input" class="form-control me-2" type="search" placeholder="Поиск картинки"
-                   aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+    {% endcache %}
+    {% if user.is_authenticated %}
+        <span class="login">Hi, <a class='text-decoration-none'
+                                   href="{{ user.profile.get_absolute_url }}">{{ user.username }}</a></span>
+        <form class="logout-form" action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <a class="text-decoration-none" href="#" onclick="parentNode.submit();">Log Out</a>
         </form>
+    {% else %}
+        <span class="login">You are not <a href="{% url 'login' %}"
+                                           class="text-decoration-none">logged in</a></span>
+    {% endif %}
+    <form class="d-flex" id="search-form" role="search" method="GET">
+        <input id="search-input" class="form-control me-2" type="search" placeholder="Поиск картинки"
+               aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
 
     </div>
+
 </nav>
 <main>
 
