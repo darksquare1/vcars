@@ -3,11 +3,21 @@
     let animationId = null
     const speed = 3
     const car = document.querySelector('.car')
-    const carWidth = car.clientWidth
+    const carWidth = car.clientWidth / 2
     const carHeight = car.clientHeight
+    const coin = document.querySelector('.coin')
+    const coinCoords = getCoords(coin)
+    const coinWidth = coin.clientWidth / 2
+    const arrow = document.querySelector('.arrow')
+    const arrowCoords = getCoords(arrow)
+    const arrowWidth = coin.clientWidth / 2
+    const danger = document.querySelector('.danger')
+    const dangerCoords = getCoords(danger)
+    const dangerWidth = coin.clientWidth / 2
+
     const road = document.querySelector('.road')
     const roadHeight = road.clientHeight
-    const roadWidth = road.clientWidth
+    const roadWidth = road.clientWidth / 2
     const bushes = document.querySelectorAll('.bush')
     const mountains = document.querySelectorAll('.mountain')
     const sprites = [...bushes, ...mountains]
@@ -73,7 +83,7 @@
 
     function carMoveToTop() {
         const newY = carCoords.y - 5
-        if (newY < 0) {
+        if (newY < -50) {
             return
         }
         carCoords.y = newY
@@ -83,7 +93,7 @@
 
     function carMoveToBottom() {
         const newY = carCoords.y + 5
-        if (newY + carHeight > roadHeight) {
+        if (newY - 50 + carHeight > roadHeight) {
             return
         }
         carCoords.y = newY
@@ -93,7 +103,7 @@
 
     function carMoveToRight() {
         const newX = carCoords.x + 5
-        if (newX + 50 > roadWidth - carWidth) {
+        if (newX - 20 > roadWidth - carWidth) {
             return
         }
         carCoords.x = newX
@@ -103,7 +113,7 @@
 
     function carMoveToLeft() {
         const newX = carCoords.x - 5
-        if (newX - 50 < -roadWidth + carWidth) {
+        if (newX + 20 < -roadWidth + carWidth) {
             return
         }
         carCoords.x = newX
@@ -119,6 +129,9 @@
 
     function startGame() {
         spritesAnimation()
+        elementAnimation(coin, coinCoords, coinWidth, -100)
+        elementAnimation(danger, dangerCoords, dangerWidth, -250)
+        elementAnimation(arrow, arrowCoords, arrowWidth, -600)
         animationId = requestAnimationFrame(startGame)
     }
 
@@ -138,6 +151,20 @@
 
     }
 
+    function elementAnimation(elem, elemCoords, elemWidth, elemInitialYCoord) {
+        let newY = elemCoords.y + speed
+        let newX = elemCoords.x
+        if (newY > window.innerHeight) {
+            newY = elemInitialYCoord
+            const direction = parseInt(Math.random() * 2)
+            const randomXCoord = parseInt(Math.random() * (roadWidth + 1 - elemWidth))
+            newX = direction === 0 ? -randomXCoord : randomXCoord
+
+        }
+        elemCoords.y = newY
+        elemCoords.x = newX
+        elem.style.transform = `translate(${newX}px, ${newY}px)`
+    }
 
     function getCoords(element) {
         const matrix = window.getComputedStyle(element).transform
