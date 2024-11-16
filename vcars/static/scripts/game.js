@@ -1,10 +1,13 @@
 (function () {
     let isPause = false
     let animationId = null
-
     const speed = 3
-
     const car = document.querySelector('.car')
+    const carWidth = car.clientWidth
+    const carHeight = car.clientHeight
+    const road = document.querySelector('.road')
+    const roadHeight = road.clientHeight
+    const roadWidth = road.clientWidth
     const bushes = document.querySelectorAll('.bush')
     const mountains = document.querySelectorAll('.mountain')
     const sprites = [...bushes, ...mountains]
@@ -27,12 +30,24 @@
         }
         const code = event.code
         if ((code === 'ArrowUp' || code === 'KeyW') && carMove.top === null) {
+            if (carMove.down) {
+                return
+            }
             carMove.top = requestAnimationFrame(carMoveToTop)
         } else if ((code === 'ArrowDown' || code === 'KeyS') && carMove.bottom === null) {
+            if (carMove.top) {
+                return
+            }
             carMove.bottom = requestAnimationFrame(carMoveToBottom)
         } else if ((code === 'ArrowLeft' || code === 'KeyA') && carMove.left === null) {
+            if (carMove.right) {
+                return
+            }
             carMove.left = requestAnimationFrame(carMoveToLeft)
         } else if ((code === 'ArrowRight' || code === 'KeyD') && carMove.right === null) {
+            if (carMove.left) {
+                return
+            }
             carMove.right = requestAnimationFrame(carMoveToRight)
         }
 
@@ -58,6 +73,9 @@
 
     function carMoveToTop() {
         const newY = carCoords.y - 5
+        if (newY < 0) {
+            return
+        }
         carCoords.y = newY
         setCarCoords(carCoords.x, newY)
         carMove.top = requestAnimationFrame(carMoveToTop)
@@ -65,6 +83,9 @@
 
     function carMoveToBottom() {
         const newY = carCoords.y + 5
+        if (newY + carHeight > roadHeight) {
+            return
+        }
         carCoords.y = newY
         setCarCoords(carCoords.x, newY)
         carMove.bottom = requestAnimationFrame(carMoveToBottom)
@@ -72,6 +93,9 @@
 
     function carMoveToRight() {
         const newX = carCoords.x + 5
+        if (newX + 50 > roadWidth - carWidth) {
+            return
+        }
         carCoords.x = newX
         setCarCoords(newX, carCoords.y)
         carMove.right = requestAnimationFrame(carMoveToRight)
@@ -79,6 +103,9 @@
 
     function carMoveToLeft() {
         const newX = carCoords.x - 5
+        if (newX - 50 < -roadWidth + carWidth) {
+            return
+        }
         carCoords.x = newX
         setCarCoords(newX, carCoords.y)
         carMove.left = requestAnimationFrame(carMoveToLeft)
