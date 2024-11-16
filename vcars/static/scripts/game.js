@@ -22,6 +22,9 @@
         spriteCoords.push(spriteCoord)
     }
     document.addEventListener('keydown', (event) => {
+        if (isPause){
+            return
+        }
         const code = event.code
         if ((code === 'ArrowUp' || code === 'KeyW') && carMove.top === null) {
             carMove.top = requestAnimationFrame(carMoveToTop)
