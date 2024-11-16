@@ -9,7 +9,7 @@ body {
 .car {
     position: absolute;
     width: 120px;
-    bottom: 0;
+    transform: translateY(75vh);
 
 }
 
@@ -52,14 +52,17 @@ body {
     transform: translate(270px, 80vh);
     width: 270px;
 }
-.bush7{
+
+.bush7 {
     transform: translate(500px, 140vh);
     width: 230px;
 }
-.bush8{
+
+.bush8 {
     transform: translate(-300px, 120vh);
     width: 220px;
 }
+
 .mountain1 {
     position: absolute;
     width: 300px;
@@ -73,18 +76,21 @@ body {
     height: 700px;
     transform: translate(-620px, 5vh);
 }
+
 .mountain3 {
     position: absolute;
     width: 320px;
     height: 670px;
     transform: translate(820px, 100vh);
 }
+
 .mountain4 {
     position: absolute;
     width: 340px;
     height: 650px;
     transform: translate(-720px, 70vh);
 }
+
 .game-button {
     position: fixed;
     right: 10px;
@@ -104,9 +110,11 @@ body {
     width: 60px;
     height: 60px;
 }
-.game-button .play{
+
+.game-button .play {
     display: none;
 }
+
 .danger {
     width: 80px;
     position: absolute;
