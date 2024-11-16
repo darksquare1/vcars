@@ -22,7 +22,7 @@
         spriteCoords.push(spriteCoord)
     }
     document.addEventListener('keydown', (event) => {
-        if (isPause){
+        if (isPause) {
             return
         }
         const code = event.code
@@ -124,7 +124,11 @@
     gameButton.addEventListener('click', () => {
         isPause = !isPause;
         if (isPause) {
-            cancelAnimationFrame(animationId);
+            cancelAnimationFrame(animationId)
+            cancelAnimationFrame(carMove.top)
+            cancelAnimationFrame(carMove.bottom)
+            cancelAnimationFrame(carMove.left)
+            cancelAnimationFrame(carMove.right)
             gameButton.children[0].style.display = 'none'
             gameButton.children[1].style.display = 'initial'
         } else {
