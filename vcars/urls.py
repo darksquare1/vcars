@@ -1,5 +1,6 @@
 from django.conf.urls.static import static
 from django.urls import path
+from django.views.generic import TemplateView
 
 from config import settings
 from . import views
@@ -12,5 +13,6 @@ urlpatterns = [
     path('pic/<slug:slug>/', views.PicDetailView.as_view(), name='pic_detail'),
     path('addpic/', views.CreatePic.as_view(), name='post_pic'),
     path('rating/', LikeView.as_view(), name='rating'),
+    path('game/', TemplateView.as_view(template_name='game/game.html'), name='game')
 
 ]
