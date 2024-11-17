@@ -27,6 +27,15 @@
     <img src='{% static 'images/pause.png' %}' class="pause"/>
     <img src='{% static 'images/play.png' %}' class="play"/>
 </button>
+<div class="game-score">
+    0
+</div>
+<div class="backdrop">
+    <div class="container">
+        <p class="finish-text">Итоговый счет: <span class="finish-text-score">0</span></p>
+        <button type="button" class="restart-button">Начать сначала</button>
+    </div>
+</div>
 <script src={% static 'scripts/game.js' %}></script>
 
 </body>
