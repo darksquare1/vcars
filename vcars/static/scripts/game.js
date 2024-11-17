@@ -5,42 +5,24 @@
     let score = 0
     const car = document.querySelector('.car')
     const carInfo = {
-        width: car.clientWidth / 2,
-        height: car.clientHeight,
-        coords: getCoords(car),
+        ...createElementInfo(car),
         move: {
             top: null,
             bottom: null,
             left: null,
             right: null,
         },
-        visible: true,
 
     }
     const coin = document.querySelector('.coin')
-    const coinInfo = {
-        width: coin.clientWidth / 2,
-        height: coin.clientHeight,
-        coords: getCoords(coin),
-        visible: true,
-    }
+    const coinInfo = createElementInfo(coin)
     const gameScore = document.querySelector('.game-score')
     const backdrop = document.querySelector('.backdrop')
     const restartButton = document.querySelector('.restart-button')
     const arrow = document.querySelector('.arrow')
-    const arrowInfo = {
-        width: arrow.clientWidth / 2,
-        height: arrow.clientHeight,
-        coords: getCoords(arrow),
-        visible: true,
-    }
+    const arrowInfo = createElementInfo(arrow)
     const danger = document.querySelector('.danger')
-    const dangerInfo = {
-        width: danger.clientWidth / 2,
-        height: danger.clientHeight,
-        coords: getCoords(danger),
-        visible: true,
-    }
+    const dangerInfo = createElementInfo(danger)
 
     const road = document.querySelector('.road')
     const roadHeight = road.clientHeight
@@ -49,6 +31,17 @@
     const mountains = document.querySelectorAll('.mountain')
     const sprites = [...bushes, ...mountains]
     const spriteCoords = []
+
+    function createElementInfo(element) {
+        return {
+            width: element.clientWidth / 2,
+            height: element.clientHeight,
+            coords: getCoords(element),
+            visible: true,
+            ignoreAppearance: false,
+
+        }
+    }
 
     for (let i = 0; i < sprites.length; i++) {
         const sprite = sprites[i]
@@ -135,7 +128,7 @@
 
     function carMoveToLeft() {
         const newX = carInfo.coords.x - 5
-        if (newX  < -roadWidth + carInfo.width) {
+        if (newX < -roadWidth + carInfo.width) {
             return
         }
         carInfo.coords.x = newX
@@ -169,7 +162,27 @@
         }
 
 
-        //elementAnimation(arrow, arrowInfo,  -600)
+        elementAnimation(arrow, arrowInfo, -600)
+        if (arrowInfo.visible && hasCollision(carInfo, arrowInfo)) {
+            arrow.style.display = 'none'
+            arrowInfo.visible = false
+            danger.style.opacity = 0.5
+            dangerInfo.visible = false
+            arrowInfo.ignoreAppearance = true
+            dangerInfo.ignoreAppearance = true
+            speed += 10
+            setTimeout(() => {
+                danger.style.opacity = 1
+                speed -= 10
+                setTimeout(() => {
+                    dangerInfo.visible = true
+                    arrowInfo.ignoreAppearance = false
+                    dangerInfo.ignoreAppearance = false
+                }, 500)
+            }, 1000)
+
+
+        }
         animationId = requestAnimationFrame(startGame)
     }
 
@@ -197,8 +210,11 @@
             const direction = parseInt(Math.random() * 2)
             const randomXCoord = parseInt(Math.random() * (roadWidth + 1 - elemInfo.width))
             newX = direction === 0 ? -randomXCoord : randomXCoord
-            elem.style.display = 'initial'
-            elemInfo.visible = true
+            if (!elemInfo.ignoreAppearance) {
+                elem.style.display = 'initial'
+                elemInfo.visible = true
+            }
+
         }
         elemInfo.coords.y = newY
         elemInfo.coords.x = newX
@@ -241,6 +257,7 @@
         cancelAnimationFrame(carInfo.move.left)
         cancelAnimationFrame(carInfo.move.right)
     }
+
     function finishGame() {
         cancelAnimations()
         gameScore.style.display = 'none'
@@ -267,10 +284,10 @@
     restartButton.addEventListener('click', () => {
         window.location.reload()
     })
-    document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && event.code === 'F5') {
-        event.preventDefault()
+    document.addEventListener('keydown', function (event) {
+        if (event.ctrlKey && event.code === 'F5') {
+            event.preventDefault()
 
-    }
-})
+        }
+    })
 })()
