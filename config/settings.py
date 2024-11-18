@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'mptt',
     'django_filters',
     'chat.apps.ChatConfig',
+    'game.apps.GameConfig',
 ]
 CACHES = {
     'default': {
