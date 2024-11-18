@@ -1,4 +1,4 @@
-(function() {
+(function () {
     let isPause = false
     let animationId = null
     let speed = 3
@@ -84,12 +84,12 @@
     animationId = requestAnimationFrame(startGame)
 
     function startGame() {
-        elementAnimation(danger,  dangerInfo,speed, -250)
+        elementAnimation(danger, dangerInfo, speed, -250)
         if (dangerInfo.visible && hasCollision(carInfo, dangerInfo)) {
             return finishGame()
         }
         spritesAnimation(speed)
-        elementAnimation(coin,  coinInfo,speed, -100)
+        elementAnimation(coin, coinInfo, speed, -100)
         if (coinInfo.visible && hasCollision(carInfo, coinInfo)) {
             score += 1
             gameScore.innerText = score
@@ -100,7 +100,7 @@
             }
         }
 
-        elementAnimation(arrow, arrowInfo, speed,-600)
+        elementAnimation(arrow, arrowInfo, speed, -600)
         if (arrowInfo.visible && hasCollision(carInfo, arrowInfo)) {
             arrow.style.display = 'none'
             arrowInfo.visible = false
@@ -156,10 +156,5 @@
     })
     restartButton.addEventListener('click', () => {
         window.location.reload()
-    })
-    document.addEventListener('keydown', function(event) {
-        if (event.ctrlKey && event.code === 'F5') {
-            event.preventDefault()
-        }
     })
 })()

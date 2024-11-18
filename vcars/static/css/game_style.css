@@ -136,7 +136,6 @@ body {
     width: 80px;
     position: absolute;
     transform: translate(-100px, -120px);
-    border: 1px solid green;
 }
 
 .coin {
@@ -201,10 +200,13 @@ body {
     }
 }
 
-.restart-button {
+.restart-button,
+.go-to-index-button{
     cursor: pointer;
     border: none;
     border-radius: 8px;
+    width: 18vw;
+    margin: 10px;
     color: white;
     background: rgb(142, 12, 83);
     font-size: 20px;
@@ -222,6 +224,12 @@ body {
     align-items: center;
     width: 350px;
 }
-.restart-button:hover{
-    background: rgb(177,14,104);
+
+.restart-button:hover,
+.go-to-index-button:hover{
+    background: rgb(177, 14, 104);
+}
+.go-to-index-button a{
+    text-decoration: none;
+    color: white;
 }
