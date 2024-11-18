@@ -1,5 +1,5 @@
-<div class="records" style="padding: 10px;">
-    <p>
-        {{ record.owner }}{{ record }}
-    </p>
-</div>
+{% for record in records %}
+    <div class="record" style="padding: 10px;">
+        <p>{{ record.owner }}: {{ record.record }}</p>
+    </div>
+{% endfor %}

@@ -201,7 +201,8 @@ body {
 }
 
 .restart-button,
-.go-to-index-button{
+.go-to-index-button,
+.view-records-button {
     cursor: pointer;
     border: none;
     border-radius: 8px;
@@ -226,10 +227,77 @@ body {
 }
 
 .restart-button:hover,
-.go-to-index-button:hover{
+.go-to-index-button:hover,
+.view-records-button:hover {
     background: rgb(177, 14, 104);
 }
-.go-to-index-button a{
+
+.go-to-index-button a {
     text-decoration: none;
     color: white;
+}
+
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 600px;
+    max-height: 80vh;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.records {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+    font-size: 18px;
+    text-align: left;
+}
+
+
+.record {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.record:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+button.close-modal {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button.close-modal:hover {
+    background-color: #c0392b;
 }

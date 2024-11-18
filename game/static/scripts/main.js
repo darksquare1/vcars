@@ -24,6 +24,9 @@
     const arrowInfo = createElementInfo(arrow)
     const danger = document.querySelector('.danger')
     const dangerInfo = createElementInfo(danger)
+    const viewRecordsButton = document.querySelector('.view-records-button')
+    const modal = document.querySelector('.modal')
+    const closeModalButton = document.querySelector('.close-modal')
 
     function createElementInfo(element) {
         return {
@@ -138,6 +141,10 @@
         backdrop.style.display = 'flex';
         const scoreText = backdrop.querySelector('.finish-text-score')
         scoreText.innerText = score
+        document.getElementById("score-input").value = score;
+        const form = document.getElementById("save-record-form");
+        htmx.trigger(form, 'submit')
+        viewRecordsButton.style.display = 'block';
 
     }
 
@@ -157,4 +164,12 @@
     restartButton.addEventListener('click', () => {
         window.location.reload()
     })
+    viewRecordsButton.addEventListener('click', function () {
+        modal.style.display = 'flex'
+    });
+
+    // Обработчик закрытия модального окна
+    closeModalButton.addEventListener('click', function () {
+        modal.style.display = 'none'
+    });
 })()

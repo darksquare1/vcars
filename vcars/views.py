@@ -1,6 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, DetailView, CreateView, View
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.core.exceptions import MultipleObjectsReturned
 from django.shortcuts import render, get_object_or_404
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
@@ -61,7 +61,8 @@ class PicDetailView(DetailView):
             comment = form.save(commit=False)
             comment.pic = self.object
             comment.save()
-        return render(request, 'includes/comment.html', context={'comment': comment})
+            return render(request, 'includes/comment.html', context={'comment': comment})
+        return HttpResponseBadRequest()
 
 
 class CreatePic(SuccessMessageMixin, CreateView):

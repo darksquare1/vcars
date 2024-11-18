@@ -4,7 +4,7 @@
     <title>mcqueen racing</title>
     <link rel="stylesheet" href="{% static 'css/game_style.css' %}">
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 <div class="road"></div>
 <img src='{% static 'images/car.png' %}' class="car">
 <img src='{% static 'images/bsh.png' %}' class='bush bush1'>
@@ -35,8 +35,28 @@
         <p class="finish-text">Итоговый счет: <span class="finish-text-score">0</span></p>
         <button type="button" class="restart-button">Начать сначала</button>
         <button type="button" class="go-to-index-button"><a href="/">Вернуться на главную</a></button>
+        <button type="button" class="view-records-button">Посмотреть рекорды</button>
     </div>
 </div>
+<form
+        id="save-record-form"
+        hx-post="{% url 'game:save_record' %}"
+        hx-target=".records"
+        hx-trigger="submit"
+        hx-swap="outerHTML"
+        style="display: none;">
+    <input type="hidden" name="score" id="score-input">
+</form>
+<div class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Рекорды игры</h2>
+        <div class="records">
+            {% include 'includes/records.html' %}
+        </div>
+        <button type="button" class="close-modal">Закрыть</button>
+    </div>
+</div>
+<script src="https://unpkg.com/htmx.org@1.9.4"></script>
 <script src={% static 'scripts/constants.js' %}></script>
 <script src={% static 'scripts/movement.js' %}></script>
 <script src={% static 'scripts/utils.js' %}></script>
