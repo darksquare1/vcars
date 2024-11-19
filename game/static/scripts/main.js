@@ -1,4 +1,5 @@
 (function () {
+    let audio = document.getElementById('cars-soundtrack')
     let isPause = false
     let animationId = null
     let speed = 3
@@ -40,6 +41,10 @@
     }
 
     document.addEventListener('keydown', (event) => {
+        if (!isPause && !gameFinished) {
+            audio.play()
+        }
+
         if (isPause || gameFinished) {
             return
         }
@@ -134,6 +139,8 @@
     }
 
     function finishGame() {
+        audio.pause();
+        audio.currentTime = 0;
         gameFinished = true
         cancelAnimations()
         gameScore.style.display = 'none'
@@ -149,18 +156,30 @@
     }
 
     const gameButton = document.querySelector('.game-button')
+    document.addEventListener('keydown', (event) => {
+        if (!gameFinished && (event.code === 'Space' || event.code === 'Escape')) {
+            pauseResetGame()
+        }
+    })
     gameButton.addEventListener('click', () => {
+        pauseResetGame()
+    })
+
+    function pauseResetGame() {
         isPause = !isPause;
         if (isPause) {
+            audio.pause()
             cancelAnimations()
             gameButton.children[0].style.display = 'none'
             gameButton.children[1].style.display = 'initial'
         } else {
+            audio.play()
             aminationId = requestAnimationFrame(startGame)
             gameButton.children[0].style.display = 'initial'
             gameButton.children[1].style.display = 'none'
         }
-    })
+    }
+
     restartButton.addEventListener('click', () => {
         window.location.reload()
     })
@@ -168,7 +187,6 @@
         modal.style.display = 'flex'
     });
 
-    // Обработчик закрытия модального окна
     closeModalButton.addEventListener('click', function () {
         modal.style.display = 'none'
     });

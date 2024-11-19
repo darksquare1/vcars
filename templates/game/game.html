@@ -56,6 +56,12 @@
         <button type="button" class="close-modal">Закрыть</button>
     </div>
 </div>
+<audio id="cars-soundtrack" style="display: none" loop>
+  <source src="{% static 'soundtrack/cars_soundtrack.mp3' %}" type="audio/mpeg" />
+  <p>
+    Ваш браузер не поддерживает HTML5 аудио
+  </p>
+</audio>
 <script src="https://unpkg.com/htmx.org@1.9.4"></script>
 <script src={% static 'scripts/constants.js' %}></script>
 <script src={% static 'scripts/movement.js' %}></script>
