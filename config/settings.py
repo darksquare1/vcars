@@ -50,11 +50,6 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
         'LOCATION': '127.0.0.1:11211',
     },
-    'file_cache': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': (BASE_DIR / 'cache'),
-    }
-
 }
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

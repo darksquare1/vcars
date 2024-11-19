@@ -33,7 +33,6 @@ class CustomLoginView(LoginView):
 
     def form_valid(self, form):
         remember_me = form.cleaned_data.get('remember_me')
-        print('bye')
         if not remember_me:
             self.request.session.set_expiry(0)
             self.request.session.modified = True
@@ -76,6 +75,7 @@ class ProfileUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('profile', args=[self.object.slug])
+
 
 class VerifyView(View):
     def get(self, request, *args, **kwargs):
