@@ -116,7 +116,8 @@ class TestModelPic(PicCreationMixin, TestCase):
         self.assertEqual(self.pic.tags.count(), 1)
 
     @classmethod
-    def setDownClass(cls):
+    def tearDownClass(cls):
+        super().tearDownClass()
         super().close_file_and_delete_pic()
 
 
@@ -172,5 +173,6 @@ class TestVcarsUrls(PicCreationMixin, TestCase):
         self.assertEqual(response2.status_code, 404)
 
     @classmethod
-    def setDownClass(cls):
+    def tearDownClass(cls):
+        super().tearDownClass()
         super().close_file_and_delete_pic()
