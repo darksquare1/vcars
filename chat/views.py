@@ -1,6 +1,6 @@
-from django.http import HttpResponseForbidden, HttpResponseBadRequest
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from chat.forms import ChatGroupForm
