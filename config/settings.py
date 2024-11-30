@@ -13,14 +13,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = str(os.getenv('DJANGO_ALLOWED_HOSTS')).split(' ')
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
+INTERNAL_IPS = str(os.getenv('INTERNAL_IPS')).split(' ')
 
+CSRF_TRUSTED_ORIGINS = str(os.getenv('CSRF_TRUSTED_ORIGINS')).split(' ')
 # Application definition
 
 INSTALLED_APPS = [
@@ -47,8 +46,8 @@ INSTALLED_APPS = [
 ]
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-        'LOCATION': '127.0.0.1:11211',
+        'BACKEND': str(os.getenv('CACHES_BACKEND')),
+        'LOCATION': str(os.getenv('CACHES_LOCATION')),
     },
 }
 MIDDLEWARE = [
@@ -98,12 +97,12 @@ CHANNEL_LAYERS = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vcars',
-        'USER': 'vcars',
-        'PASSWORD': str(os.getenv('DB_PASS')),
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': str(os.getenv("SQL_ENGINE")),
+        'NAME': str(os.getenv("SQL_DATABASE")),
+        'USER': str(os.getenv("SQL_USER")),
+        "PASSWORD": str(os.getenv("SQL_PASSWORD")),
+        "HOST": str(os.getenv("SQL_HOST")),
+        "PORT": str(os.getenv("SQL_PORT")),
     }
 }
 
@@ -158,7 +157,8 @@ REST_FRAMEWORK = {
         "rest_framework.filters.SearchFilter",
     ),
 }
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'pixarcars111222@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'pixarcars111222@gmail.com'
 EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
@@ -172,7 +172,7 @@ LOGIN_URL = '/accounts/login/'
 
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
-REDIS_HOST = '127.0.0.1'
+REDIS_HOST = 'redis'
 REDIS_PORT = '6379'
 BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
