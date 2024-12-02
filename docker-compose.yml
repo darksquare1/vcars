@@ -11,6 +11,7 @@ services:
     depends_on:
       - db
       - redis
+      - memcached
   db:
     image: postgres:15
     volumes:
@@ -39,6 +40,13 @@ services:
     depends_on:
       - db
       - redis
-
+  celery_beat:
+    build: .
+    command: celery -A celeryapp beat -l info -s False
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env
 volumes:
   postgres-data:

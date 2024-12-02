@@ -1,6 +1,9 @@
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import sys
+
+
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -88,7 +91,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": ['redis://127.0.0.1:6379', ],
+            "hosts": ['redis://redis:6379', ],
         },
     },
 }
@@ -139,7 +142,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = (BASE_DIR / 'static')
+try:
+    if sys.argv[1] == 'runserver':
+        STATICFILES_DIRS = [BASE_DIR / 'static']
+
+    else:
+        STATIC_ROOT = (BASE_DIR / 'static')
+except IndexError as exc:
+    print(exc)
+
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
@@ -158,9 +169,9 @@ REST_FRAMEWORK = {
     ),
 }
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = 'pixarcars111222@gmail.com'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'pixarcars111222@gmail.com'
+DEFAULT_FROM_EMAIL = str(os.getenv('EMAIL_HOST_USER'))
+EMAIL_HOST = str(os.getenv('EMAIL_HOST'))
+EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
 EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
