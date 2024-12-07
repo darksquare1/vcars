@@ -1,25 +1,26 @@
 {% extends 'vcars/base.html' %}
 {% block content %}
- <h2> Регистрация </h2>
-    {% if form.errors %}
-        <div style="display: table; margin: 0 auto; text-align: left;">
-            {% for key, value in form.errors.items %}
-                <strong>{{ value }}</strong>
-            {% endfor %}
-        </div>
-    {% endif %}
-    <form method="post" enctype="multipart/form-data" class="sign-up-form">
-        {% csrf_token %}
-        <p>Логин: {{ form.username }}</p>
-        <p>Имя: {{ form.first_name }}</p>
-        <p>Фамилия: {{ form.last_name }}</p>
-        <p>Почта: {{ form.email }}</p>
-        <p>Пароль: {{ form.password1 }}</p>
-        <p>Подтверждение пароля: {{ form.password2 }}</p>
-        <p>Аватар: {{ form.avatar }}</p>
-        <button type="submit" class='btn btn-primary'>Зарегистрироваться</button>
-        <br>
-      Уже есть аккаунт? <a href="{% url 'login' %}" class="text-decoration-none">Войти</a>
-    </form>
-  
+    <div class="form-container">
+        <h2> Регистрация </h2>
+        {% if form.errors %}
+            <div style="display: table; margin: 0 auto; text-align: left;">
+                {% for key, value in form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data" class="sign-up-form">
+            {% csrf_token %}
+            <p>Логин: {{ form.username }}</p>
+            <p>Имя: {{ form.first_name }}</p>
+            <p>Фамилия: {{ form.last_name }}</p>
+            <p>Почта: {{ form.email }}</p>
+            <p>Пароль: {{ form.password1 }}</p>
+            <p>Подтверждение пароля: {{ form.password2 }}</p>
+            <p>Аватар: {{ form.avatar }}</p>
+            <button type="submit" class='btn btn-primary'>Зарегистрироваться</button>
+            <br>
+            Уже есть аккаунт? <a href="{% url 'login' %}" class="text-decoration-none">Войти</a>
+        </form>
+    </div>
 {% endblock %}

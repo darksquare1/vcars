@@ -1,12 +1,14 @@
 {% extends 'vcars/base.html' %}
 {% block content %}
-    <h2>Авторизация</h2>
-    <form  method="post" >
-        {{ form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" class='btn btn-primary' value="Войти"></p>
-    </form>
-    Еще не зарегистрированы? <a class='text-decoration-none' href="{% url 'signup' %}">Зарегистрироваться.</a>
-    <br>
-    Забыли пароль? <a href="{% url 'password_reset' %}" class="text-decoration-none">Сбросить пароль</a>
+    <div class="form-container">
+        <h2>Авторизация</h2>
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" class='btn btn-primary' value="Войти"></p>
+        </form>
+        Еще не зарегистрированы? <a class='text-decoration-none' href="{% url 'signup' %}">Зарегистрироваться.</a>
+        <br>
+        Забыли пароль? <a href="{% url 'password_reset' %}" class="text-decoration-none">Сбросить пароль</a>
+    </div>
 {% endblock %}

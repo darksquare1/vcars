@@ -13,16 +13,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(os.getenv('SECRET_KEY'))
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = str(os.getenv('DJANGO_ALLOWED_HOSTS')).split(' ')
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS').split(' ')
 
-INTERNAL_IPS = str(os.getenv('INTERNAL_IPS')).split(' ')
+INTERNAL_IPS = os.getenv('INTERNAL_IPS').split(' ')
 
-CSRF_TRUSTED_ORIGINS = str(os.getenv('CSRF_TRUSTED_ORIGINS')).split(' ')
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(' ')
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,8 +49,8 @@ INSTALLED_APPS = [
 ]
 CACHES = {
     'default': {
-        'BACKEND': str(os.getenv('CACHES_BACKEND')),
-        'LOCATION': str(os.getenv('CACHES_LOCATION')),
+        'BACKEND': os.getenv('CACHES_BACKEND'),
+        'LOCATION': os.getenv('CACHES_LOCATION'),
     },
 }
 MIDDLEWARE = [
@@ -100,12 +100,12 @@ CHANNEL_LAYERS = {
 
 DATABASES = {
     'default': {
-        'ENGINE': str(os.getenv("SQL_ENGINE")),
-        'NAME': str(os.getenv("SQL_DATABASE")),
-        'USER': str(os.getenv("SQL_USER")),
-        "PASSWORD": str(os.getenv("SQL_PASSWORD")),
-        "HOST": str(os.getenv("SQL_HOST")),
-        "PORT": str(os.getenv("SQL_PORT")),
+        'ENGINE': os.getenv("SQL_ENGINE"),
+        'NAME': os.getenv("SQL_DATABASE"),
+        'USER': os.getenv("SQL_USER"),
+        "PASSWORD": os.getenv("SQL_PASSWORD"),
+        "HOST": os.getenv("SQL_HOST"),
+        "PORT": os.getenv("SQL_PORT"),
     }
 }
 
@@ -169,10 +169,10 @@ REST_FRAMEWORK = {
     ),
 }
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = str(os.getenv('EMAIL_HOST_USER'))
-EMAIL_HOST = str(os.getenv('EMAIL_HOST'))
-EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
-EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False

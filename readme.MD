@@ -10,19 +10,19 @@ Create .env file which looks like:
 ```
 DEBUG=True
 DJANGO_SETTINGS_MODULE=config.settings
-SECRET_KEY=change me
-DJANGO_ALLOWED_HOSTS='127.0.0.1'
-CSRF_TRUSTED_ORIGINS='http://127.0.0.1'
-CACHES_BACKEND='django.core.cache.backends.memcached.PyMemcacheCache'
-CACHES_LOCATION='memcached:11211'
-INTERNAL_IPS='127.0.0.1'
+SECRET_KEY='change me'
+DJANGO_ALLOWED_HOSTS=127.0.0.1
+CSRF_TRUSTED_ORIGINS=http://127.0.0.1
+CACHES_BACKEND=django.core.cache.backends.memcached.PyMemcacheCache
+CACHES_LOCATION=memcached:11211
+INTERNAL_IPS=127.0.0.1
 
 EMAIL_HOST_PASSWORD=change me
 DEFAULT_FROM_EMAIL=change me
 EMAIL_HOST=change me
 EMAIL_HOST_USER=change me
 
-REDIS_CONFIG_HOSTS='redis://127.0.0.1:6379'
+REDIS_CONFIG_HOSTS=redis://127.0.0.1:6379
 
 SQL_ENGINE=django.db.backends.postgresql
 SQL_DATABASE=change me
@@ -53,19 +53,19 @@ Create .env.prod file which looks like:
 ```
 DEBUG=False
 DJANGO_SETTINGS_MODULE=config.settings
-SECRET_KEY=changeme
-DJANGO_ALLOWED_HOSTS='*'
-CSRF_TRUSTED_ORIGINS='http://127.0.0.1'
-CACHES_BACKEND='django.core.cache.backends.memcached.PyMemcacheCache'
-CACHES_LOCATION='memcached:11211'
-INTERNAL_IPS='127.0.0.1'
+SECRET_KEY='changeme'
+DJANGO_ALLOWED_HOSTS=*
+CSRF_TRUSTED_ORIGINS=http://127.0.0.1
+CACHES_BACKEND=django.core.cache.backends.memcached.PyMemcacheCache
+CACHES_LOCATION=memcached:11211
+INTERNAL_IPS=127.0.0.1
 
 EMAIL_HOST_PASSWORD=changeme
 DEFAULT_FROM_EMAIL=changeme
 EMAIL_HOST=changeme
 EMAIL_HOST_USER=changeme
 
-REDIS_CONFIG_HOSTS ='redis://redis:6379'
+REDIS_CONFIG_HOSTS =redis://redis:6379
 
 SQL_ENGINE=django.db.backends.postgresql
 SQL_DATABASE=changeme
