@@ -10,7 +10,7 @@ def send_verify_email(user_id):
         send_mail(
             'Подтверждение вашего аккаунта',
             'Проследуйте по этой ссылке для подтверждения вашей почты: '
-            f'http://127.0.0.1:8000{reverse('verify', args=[str(user.profile.verification_uuid)])}',
+            f'http://127.0.0.1:80{reverse('verify', args=[str(user.profile.verification_uuid)])}',
             'pixarcars111222@gmail.com',
             [user.email],
             fail_silently=False
